@@ -1,0 +1,167 @@
+Das ist ein super spannendes Projekt – ein Vampire Survivors-ähnliches Spiel im Browser ist ambitioniert, aber mit klarer Struktur und Arbeitsteilung absolut machbar.
+Ziel ist es, dass ihr lange unabhängig voneinander arbeiten könnt, aber trotzdem ein gemeinsames, gut integrierbares Spiel entsteht.
+
+⸻
+
+🎯 Gesamtidee
+
+Ein Top-Down Survival-Spiel, bei dem der Spieler automatisch angreift, Gegner in Wellen erscheinen, XP und Items sammelt, Waffen kombiniert und sich verbessert.
+
+⸻
+
+⚙️ Technologien
+	•	HTML → Spielfläche (Canvas), UI, Layout
+	•	CSS → Stil, Animationen, Responsive Design
+	•	JavaScript → Spielmechanik, Logik, Rendering, Physik
+
+⸻
+
+👥 Teamaufteilung
+
+Wir strukturieren es in 3 Hauptbereiche, die weitgehend unabhängig voneinander entwickelt werden können:
+
+🧠 Person 1 – Game Engine & Core Logic
+
+Zuständig für: Spiellogik, Physik, Game Loop, Kollisionen, Gegnerverhalten
+
+Aufgaben:
+	1.	Game Loop (Update & Render)
+	2.	Entity-System (Spieler, Gegner, Projektile, Items)
+	3.	Bewegung & Kollisionserkennung
+	4.	Lebenspunkte, Schaden, XP-System
+	5.	Gegner-Spawn-System (Wellen)
+	6.	Basisstruktur für Waffen & Angriffe
+
+Deliverables:
+	•	game.js → Enthält den Game-Loop und Entity-Verwaltung
+	•	entities.js → Klassen für Spieler, Gegner, Projektile
+	•	Testbare Demo: Spieler kann sich bewegen und Gegner spawnen.
+
+Absprachen mit anderen:
+	•	Schnittstellen für UI-Updates (HP, XP, Level)
+	•	Event-System (z. B. onLevelUp, onItemPickup)
+
+⸻
+
+🎨 Person 2 – Grafik, Animation & UI
+
+Zuständig für: Darstellung, Canvas-Zeichnung, UI, Menü, HUD
+
+Aufgaben:
+	1.	Erstellen oder Einbinden von Spritesheets (Spieler, Gegner, Items, Projektile)
+	2.	Implementieren des Rendering-Systems (Zeichenreihenfolge, Layer)
+	3.	Animation (Sprite-Wechsel, Laufanimation, Gegnerbewegung)
+	4.	Benutzeroberfläche:
+	•	HP-Bar, XP-Bar
+	•	Level-Up-Auswahlmenü (Items/Waffen wählen)
+	•	Pause- und Startmenü
+	5.	CSS-Styling für Spieloberfläche und Menüs
+
+Deliverables:
+	•	graphics.js → Renderfunktionen
+	•	ui.js → HUD und Menüs
+	•	Sprites/Assets-Ordner mit Grafiken
+	•	Testbare Demo: Spieler bewegt sich sichtbar, UI zeigt HP & XP an.
+
+Absprachen mit anderen:
+	•	Erwartete Datenstruktur für Spielfiguren (player.x, player.y, player.hp, etc.)
+	•	Event-Callbacks (z. B. updateHP(newHP))
+
+⸻
+
+🧩 Person 3 – Waffen-, Item- & Kombinationssystem
+
+Zuständig für: Gameplay-Tiefe, Waffen, Items, Upgrades, Kombinationen
+
+Aufgaben:
+	1.	Waffen-Definitionen (z. B. Peitsche, Messer, Feuerball)
+	2.	Item-System (Buffs, HP-Regeneration, Bewegungsgeschwindigkeit)
+	3.	Kombinationen:
+	•	Waffe + Waffe → Neue mächtige Version
+	•	Item + Item → Passive Effekte
+	•	Waffe + Item → Spezielle Fähigkeiten
+	4.	XP/Level-System mit Auswahlmenü (z. B. 3 zufällige Upgrades zur Auswahl)
+	5.	Balancing-Parameter (Damage, Range, Cooldown, Drop-Rates)
+
+Deliverables:
+	•	weapons.js → Waffenlogik (Update, Attack)
+	•	items.js → Passive Boni, Kombinationsregeln
+	•	levelup.js → Upgrade-System (GUI-Anbindung an Person 2)
+	•	Testbare Demo: Waffen lassen sich upgraden, neue Effekte sichtbar
+
+Absprachen mit anderen:
+	•	Zugriff auf Entity-System (um Schaden zu verursachen)
+	•	Schnittstelle für visuelle Darstellung (z. B. Projektiltyp → Sprite-ID)
+
+⸻
+
+🔗 Gemeinsame Strukturen (müssen am Anfang abgestimmt werden)
+
+Einmalig zu dritt absprechen:
+	1.	Basis-Ordnerstruktur:
+
+/src
+  index.html
+  style.css
+  /js
+    game.js
+    entities.js
+    graphics.js
+    ui.js
+    weapons.js
+    items.js
+    levelup.js
+/assets
+  /sprites
+  /sounds
+
+
+	2.	Datenobjekte:
+
+player = {
+  x: 100,
+  y: 100,
+  hp: 100,
+  maxHp: 100,
+  xp: 0,
+  level: 1,
+  weapons: [],
+  items: []
+};
+
+
+	3.	Event-System oder Message Bus:
+
+events.emit('enemyKilled', enemy);
+events.on('levelUp', showLevelUpMenu);
+
+
+	4.	Standardwerte (Balancing-Startwerte):
+	•	Spieler HP: 100
+	•	Basis-Schaden: 10
+	•	XP pro Gegner: 5
+	•	Level-Up bei 100 XP
+
+⸻
+
+🕓 Zeitplan (empfohlen)
+
+Phase	Dauer	Inhalt	Ziel
+1. Planung & Setup	1 Woche	Struktur, Schnittstellen, Dummy-Grafiken	Läuft lokal, Spiel startet
+2. Core Development	2–3 Wochen	Jede Person arbeitet an ihrem Modul	Einzel-Demos funktionieren
+3. Integration	1 Woche	Zusammenführen der Module	Spielbar, aber unbalanciert
+4. Balancing & Polish	1–2 Wochen	Grafiken, Sounds, Performance	Präsentationsreif
+
+
+⸻
+
+💡 Erweiterungsideen (wenn Zeit bleibt)
+	•	Partikeleffekte (Blut, Explosionen)
+	•	Unterschiedliche Karten
+	•	Soundeffekte & Musik
+	•	Save/Load-Funktion mit localStorage
+	•	Mobile Steuerung
+
+⸻
+
+Möchtest du, dass ich dir auf dieser Basis eine konkrete Aufgabenliste pro Woche (z. B. Sprint-Planung für 5–6 Wochen) zusammenstelle, damit ihr den Fortschritt besser planen könnt?
