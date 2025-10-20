@@ -161,7 +161,3 @@ Phase	Dauer	Inhalt	Ziel
 	•	Soundeffekte & Musik
 	•	Save/Load-Funktion mit localStorage
 	•	Mobile Steuerung
-
-⸻
-
-Möchtest du, dass ich dir auf dieser Basis eine konkrete Aufgabenliste pro Woche (z. B. Sprint-Planung für 5–6 Wochen) zusammenstelle, damit ihr den Fortschritt besser planen könnt?
