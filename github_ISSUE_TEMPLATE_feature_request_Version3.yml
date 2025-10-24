@@ -1,0 +1,84 @@
+name: Feature request
+description: Suggest an idea or improvement.
+title: "feat: <short description>"
+labels: ["enhancement"]
+assignees: []
+body:
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Pre-checks
+      options:
+        - label: I searched existing issues and discussions for a related request.
+          required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem to solve
+      description: What problem does this feature solve?
+      placeholder: Describe the user problem or pain point.
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed solution
+      description: How would you like this to work?
+      placeholder: Describe the feature or behavior you'd like to see.
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: What alternative solutions have you considered?
+      placeholder: List any alternative approaches.
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      multiple: true
+      options:
+        - UI
+        - JavaScript logic
+        - Build
+        - Documentation
+        - Other
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      options:
+        - Low
+        - Medium
+        - High
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      description: Define clear criteria for completion.
+      placeholder: |
+        - [ ] Criterion 1
+        - [ ] Criterion 2
+        - [ ] Criterion 3
+
+  - type: textarea
+    id: impact
+    attributes:
+      label: Breaking changes / risks
+      description: Could this break existing behavior? Any risks?
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context / mockups
+      description: Add any extra details, links, or sketches.
