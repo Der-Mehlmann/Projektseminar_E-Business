@@ -1,0 +1,114 @@
+name: Bug report
+description: Report a Bug.
+title: "bug: <short description>"
+labels: ["bug"]
+assignees: []
+body:
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Pre-checks
+      options:
+        - label: I searched existing issues and discussions for duplicates.
+          required: true
+        - label: I can reproduce this on the latest version/main branch.
+          required: false
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: A clear and concise description of what the bug is.
+      placeholder: Describe the problem you’re seeing.
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: If you can provide steps to reproduce the behavior.
+      placeholder: |
+        1. Go to '...'
+        2. Click on '...'
+        3. Scroll to '...'
+        4. See error
+    validations:
+      required: false
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: What did you expect to happen?
+    validations:
+      required: false
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+      description: What actually happened?
+    validations:
+      required: true
+
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Severity
+      options:
+        - High
+        - Medium
+        - Low
+    validations:
+      required: true
+
+  - type: input
+    id: browser
+    attributes:
+      label: Browser
+      placeholder: Chrome 129, Firefox 130, Safari 18, Edge 129
+
+  - type: input
+    id: os
+    attributes:
+      label: Operating system
+      placeholder: Windows 11, macOS 14, Ubuntu 22.04, iOS 18, Android 15
+
+  - type: input
+    id: device
+    attributes:
+      label: Device
+      placeholder: Desktop, iPhone 15, Pixel 8, etc.
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Affected area
+      multiple: true
+      options:
+        - UI
+        - JavaScript logic
+        - Build
+        - Documentation
+        - Other
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Console logs / stack traces
+      description: Paste any relevant logs.
+      render: shell
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots
+      description: If applicable, add screenshots to help explain your problem.
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: Add any other context about the problem here.
