@@ -1,0 +1,20 @@
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+indent_style = space
+indent_size = 2
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+[*.md]
+# In Markdown are trailing spaces am Zeilenende manchmal gewollt (z. B. für Zeilenumbrüche)
+trim_trailing_whitespace = false
+
+[Makefile]
+# Makefiles benötigen Tabs
+indent_style = tab
+
+[*.{yml,yaml,html,css,scss,js,jsx,ts,tsx,json}]
+indent_size = 2
