@@ -15,7 +15,9 @@ export class Projectile extends MovingEntity {
         this.hitbox = hitbox
     }
 
-    move() { // wird noch implementiert
-        
-    }
+  move() {
+    // direction ist ein Vektor wie {x: 0.5, y: -0.2}
+    this.globalEntityX += this.direction.x * this.speed;
+    this.globalEntityY += this.direction.y * this.speed;
+}
 }

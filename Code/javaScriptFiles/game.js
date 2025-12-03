@@ -7,7 +7,7 @@ import {Map} from "./map.js"
 import {Player} from "./player.js"
 import { Enemy } from "./enemy.js"
 import  {drawEnemyItem, drawEnemyXp} from "./enemy.js"
-//import { Projectile } from "./projectile.js"
+import { Projectile } from "./projectile.js"
 //import { Weapon } from "./weapon.js";
 
 const canvas = document.getElementById('game')
@@ -32,6 +32,7 @@ export class game {
         this.MapOne = null
         this.PlayerOne = null
         this.enemies = [] // Array für alle aktiven Gegner
+        this.projectiles = [] // Array für alle aktiven Projektile
     }
 
     loadMap(file) {
@@ -108,6 +109,25 @@ export class game {
             this.timerInterval = null
         }
     }
+    spawnRandomProjectile() {
+    let angle = Math.random() * Math.PI * 2;
+    let dir = { x: Math.cos(angle), y: Math.sin(angle) };
+
+    let p = new Projectile(
+        this.PlayerOne.globalEntityX,
+        this.PlayerOne.globalEntityY,
+        1,
+        null,
+        5,
+        { width: 8, height: 8 },
+        false,
+        8,
+        dir,
+        5
+    );
+
+    this.projectiles.push(p);
+}
 
     start() {
         const timestamp = Date.now();
@@ -127,7 +147,10 @@ export class game {
 
         //setInterval(spawnEnemy, 100
         setInterval(() => Enemy.spawnEnemyAtEdge(this.enemies, this.mapData.width * this.mapData.tilewidth, this.mapData.height * this.mapData.tilewidth), 2000); // CHANGE: Gegner werden alle 2 Sekunden gespawnt
-
+        // Alle 0.5 Sekunden zufälliges Projektil erzeugen
+        setInterval(() => {
+            this.spawnRandomProjectile()
+            }, 500);
         this.resetTimer()
         this.startGameTimer()
 
@@ -229,9 +252,58 @@ export class game {
                 enemy.draw(ctx, enemy.globalEntityX - leftBorder, enemy.globalEntityY - topBorder, enemy.hitbox.width, enemy.hitbox.height, enemy.ranged ? 'yellow' : 'red') // Gegner im Sichtbereich zeichnen
             }
         }
+// Projektile bewegen & zeichnen
+for (let projectileIndex = this.projectiles.length - 1; projectileIndex >= 0; projectileIndex--) {
+    let projectile = this.projectiles[projectileIndex];
+
+    // Projektil bewegen
+    projectile.move();
+
+    // Projektil relativ zur Kamera / Spieler zeichnen
+    let leftBorder = this.PlayerOne.globalEntityX - this.MapOne.FOV / 2;
+    let topBorder = this.PlayerOne.globalEntityY - this.MapOne.FOV / 2;
+
+    projectile.draw(
+        ctx,
+        projectile.globalEntityX - leftBorder,
+        projectile.globalEntityY - topBorder,
+        projectile.hitbox.width,
+        projectile.hitbox.height,
+        "lightblue"
+    );
+
+    // Entfernen, wenn Projektil außerhalb der Karte
+    if (
+        projectile.globalEntityX < 0 || projectile.globalEntityX > this.MapOne.mapWidth ||
+        projectile.globalEntityY < 0 || projectile.globalEntityY > this.MapOne.mapHeight
+    ) {
+        this.projectiles.splice(projectileIndex, 1);
+    }
+}
+// Kollision prüfen: Projektil trifft Gegner
+
+for (let projectileIndex = this.projectiles.length - 1; projectileIndex >= 0; projectileIndex--) {
+    let projectile = this.projectiles[projectileIndex];
+
+    for (let enemyIndex = this.enemies.length - 1; enemyIndex >= 0; enemyIndex--) {
+        let enemy = this.enemies[enemyIndex];
+
+        // Prüfen, ob Projektil den Gegner trifft
+        if (projectile.checkCollision(enemy, 0, 0)) {
+            // Treffer → beides entfernen
+            this.enemies.splice(enemyIndex, 1);       // Gegner entfernen
+            this.projectiles.splice(projectileIndex, 1); // Projektil entfernen
+
+            enemy.die(); // optional: Drop + XP
+
+            break; // Projektil existiert nicht mehr → Schleife verlassen
+        }
+    }
+}
+
 
         drawEnemyItem(ctx, this.PlayerOne, this.MapOne)
-        drawEnemyXp(ctx, this.PlayerOne, this.MapOne) 
+        drawEnemyXp(ctx, this.PlayerOne, this.MapOne)
     }
 }
 

@@ -1,7 +1,7 @@
 import { MovingEntity } from "./movingEntity.js"
 export class Player extends MovingEntity {
     ctx
-      
+
     constructor(globalEntityX, globalEntityY, hp, png, speed, hitbox, ausrüstung = [], weapons = [], regeneration = 0, ctx) {
         super(globalEntityX, globalEntityY, hp, png, speed, hitbox)
         this.globalEntityX = globalEntityX
@@ -11,14 +11,14 @@ export class Player extends MovingEntity {
         this.ausrüstung = ausrüstung;
         this.weapons = weapons;
         this.regeneration = regeneration;
-        this.ctx = ctx  
+        this.ctx = ctx
         this.hp = hp;
         this.maxHp = hp;
         this.png = png;
         this.hitbox = hitbox;
     }
 
-    
+
     handleInput(map, inputState) {
         let speed = this.speed
         if ((inputState.rightPressed || inputState.leftPressed)         //Diagonalbewegung smoother
@@ -33,7 +33,7 @@ export class Player extends MovingEntity {
         if (inputState.downPressed)
             this.globalEntityY = map.downFree(this.globalEntityX, this.globalEntityY, speed);
     }
-    
+
 
     lvlUp() {
         this.level++;
@@ -47,7 +47,7 @@ export class Player extends MovingEntity {
         console.log("Player ist gestorben!"); //zum testen, da noch keine end funktion in game
         this.game.end();
     }
-    
+
 
     collectPickup(item) { //wird von game aufgerufen wenn collision mit item, übergibt logik an itemklasse
         if (!item) return;
