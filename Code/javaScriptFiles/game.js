@@ -252,54 +252,54 @@ export class game {
                 enemy.draw(ctx, enemy.globalEntityX - leftBorder, enemy.globalEntityY - topBorder, enemy.hitbox.width, enemy.hitbox.height, enemy.ranged ? 'yellow' : 'red') // Gegner im Sichtbereich zeichnen
             }
         }
-// Projektile bewegen & zeichnen
-for (let projectileIndex = this.projectiles.length - 1; projectileIndex >= 0; projectileIndex--) {
-    let projectile = this.projectiles[projectileIndex];
+        // Projektile bewegen & zeichnen
+        for (let projectileIndex = this.projectiles.length - 1; projectileIndex >= 0; projectileIndex--) {
+            let projectile = this.projectiles[projectileIndex];
 
-    // Projektil bewegen
-    projectile.move();
+            // Projektil bewegen
+            projectile.move();
 
-    // Projektil relativ zur Kamera / Spieler zeichnen
-    let leftBorder = this.PlayerOne.globalEntityX - this.MapOne.FOV / 2;
-    let topBorder = this.PlayerOne.globalEntityY - this.MapOne.FOV / 2;
+            // Projektil relativ zur Kamera / Spieler zeichnen
+            let leftBorder = this.PlayerOne.globalEntityX - this.MapOne.FOV / 2;
+            let topBorder = this.PlayerOne.globalEntityY - this.MapOne.FOV / 2;
 
-    projectile.draw(
-        ctx,
-        projectile.globalEntityX - leftBorder,
-        projectile.globalEntityY - topBorder,
-        projectile.hitbox.width,
-        projectile.hitbox.height,
-        "lightblue"
-    );
+            projectile.draw(
+                ctx,
+                projectile.globalEntityX - leftBorder,
+                projectile.globalEntityY - topBorder,
+                projectile.hitbox.width,
+                projectile.hitbox.height,
+                "lightblue"
+            );
 
-    // Entfernen, wenn Projektil außerhalb der Karte
-    if (
-        projectile.globalEntityX < 0 || projectile.globalEntityX > this.MapOne.mapWidth ||
-        projectile.globalEntityY < 0 || projectile.globalEntityY > this.MapOne.mapHeight
-    ) {
-        this.projectiles.splice(projectileIndex, 1);
-    }
-}
-// Kollision prüfen: Projektil trifft Gegner
-
-for (let projectileIndex = this.projectiles.length - 1; projectileIndex >= 0; projectileIndex--) {
-    let projectile = this.projectiles[projectileIndex];
-
-    for (let enemyIndex = this.enemies.length - 1; enemyIndex >= 0; enemyIndex--) {
-        let enemy = this.enemies[enemyIndex];
-
-        // Prüfen, ob Projektil den Gegner trifft
-        if (projectile.checkCollision(enemy, 0, 0)) {
-            // Treffer → beides entfernen
-            this.enemies.splice(enemyIndex, 1);       // Gegner entfernen
-            this.projectiles.splice(projectileIndex, 1); // Projektil entfernen
-
-            enemy.die(); // optional: Drop + XP
-
-            break; // Projektil existiert nicht mehr → Schleife verlassen
+            // Entfernen, wenn Projektil außerhalb der Karte
+            if (
+                projectile.globalEntityX < 0 || projectile.globalEntityX > this.MapOne.mapWidth ||
+                projectile.globalEntityY < 0 || projectile.globalEntityY > this.MapOne.mapHeight
+            ) {
+                this.projectiles.splice(projectileIndex, 1);
+            }
         }
-    }
-}
+        // Kollision prüfen: Projektil trifft Gegner
+
+        for (let projectileIndex = this.projectiles.length - 1; projectileIndex >= 0; projectileIndex--) {
+            let projectile = this.projectiles[projectileIndex];
+
+            for (let enemyIndex = this.enemies.length - 1; enemyIndex >= 0; enemyIndex--) {
+                let enemy = this.enemies[enemyIndex];
+
+                // Prüfen, ob Projektil den Gegner trifft
+                if (projectile.checkCollision(enemy, 0, 0)) {
+                    // Treffer → beides entfernen
+                    this.enemies.splice(enemyIndex, 1);       // Gegner entfernen
+                    this.projectiles.splice(projectileIndex, 1); // Projektil entfernen
+
+                    enemy.die(); // optional: Drop + XP
+
+                    break; // Projektil existiert nicht mehr → Schleife verlassen
+                }
+            }
+        }
 
 
         drawEnemyItem(ctx, this.PlayerOne, this.MapOne)
