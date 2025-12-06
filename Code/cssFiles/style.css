@@ -1,12 +1,13 @@
-@import url('https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Jersey+10&family=Pixelify+Sans:wght@400..700&display=swap');
 
 :root {
     --red: #ff0000;
     --yellow: #ffff00;
-    --brown: #8b4513;
+    --brown: #a52a2a;
     --dark-brown: #5c3317;
     --black: #000000;
     --white: #ffffff;
+	--font-primary: 'Jersey 10', serif;
 }
 
 body, html {
@@ -20,8 +21,7 @@ body, html {
     gap: 20px;
     background-color: #333;
     padding: 20px;
-    font-family: 'Pixelify Sans', sans-serif;
-    font-weight: bold;
+    font-family: var(--font-primary);
     overflow: hidden;
     image-rendering: pixelated;
 }
@@ -57,15 +57,15 @@ h1 {
 /* Button Styles */
 
 .btn {
-    background-color: red;
-    border: 4px solid yellow;
-    color: yellow;
-    font-family: 'Pixelify Sans', sans-serif;
-    font-size: 36px;
+    background-color: var(--red);
+    border: 4px solid var(--yellow);
+    color: var(--yellow);
+    font-family: var(--font-primary);
+    font-size: 42px;
     padding: 15px 20px;
     text-transform: uppercase;
     cursor: pointer;
-    text-shadow: 2px 2px 0px #000;
+    text-shadow: 2px 2px 0px var(--black);
     box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.6);
     transition: all 0.1s;
     width: 100%;
@@ -74,8 +74,8 @@ h1 {
 }
 
 .btn:hover {
-    background-color: yellow;
-    color: red;
+    background-color: var(--yellow);
+    color: var(--red);
     transform: translate(-2px, -2px);
     box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.6);
 }
@@ -83,17 +83,17 @@ h1 {
 /* Title Styles */
 
 .gameTitle {
-    color: red;
+    color: var(--red);
     margin-bottom: 50px;
-    text-shadow: 4px 4px 0px yellow;
+    text-shadow: 4px 4px 0px var(--yellow);
     text-align: center;
 }
 
 .screenTitle {
     font-size: 64px;
-    color: yellow;
+    color: var(--yellow);
     margin-bottom: 30px;
-    text-shadow: 4px 4px 0px red;
+    text-shadow: 4px 4px 0px var(--red);
     text-align: center;
 }
 
@@ -123,7 +123,7 @@ h1 {
     display: flex;
     flex-direction: column;
     gap: 15px;
-    border: 4px solid yellow;
+    border: 4px solid var(--yellow);
     box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.6);
     padding: 40px;
 }
@@ -134,11 +134,11 @@ h1 {
     display: flex;
     justify-content: space-between;
     width: 250px;
-    color: yellow;
+    color: var(--yellow);
 }
 
 .stat-val {
-    color: yellow;
+    color: var(--yellow);
 }
 
 .flex-row-gap {
@@ -190,14 +190,14 @@ h1 {
     z-index: 100;
 
     /* 8-Bit Panel Look (gleich wie vorher) */
-    background-color: brown;
+    background-color: var(--brown);
     border-bottom: 4px solid #7c5e35;
     box-shadow: 0px 4px 0px rgba(0, 0, 0, 0.4);
 
     /* Typografie Basis (gleich wie vorher) */
-    font-family: 'Pixelify Sans', sans-serif;
-    font-size: 28px;
-    color: #ffffff;
+    font-family: var(--font-primary);
+    font-size: 42px;
+    color: var(--white);
     text-transform: uppercase;
     /* Verhindert, dass die Zeit/XP umbrechen, wenn es eng wird */
     white-space: nowrap;
@@ -228,17 +228,17 @@ h1 {
 /* --- Styling der eigentlichen Inhalte (fast gleich wie vorher) --- */
 
 .hud-title {
-    color: yellow;
-    font-size: 36px;
+    color: var(--yellow);
+    font-size: 42px;
     text-shadow: 2px 2px 0px #000;
 }
 
 .hud-xp {
-    color: yellow;
+    color: var(--yellow);
 }
 
 .hud-item span {
-    color: #ffffff;
+    color: var(--white);
 }
 
 /* Ende HUD Styles */

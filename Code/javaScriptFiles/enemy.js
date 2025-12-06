@@ -1,4 +1,4 @@
-import { DropSingleUse, SpeedBoostDrop } from "./dropSingleUse.js" 
+import { DropSingleUse, SpeedBoostDrop, HealDrop } from "./dropSingleUse.js" 
 import { MovingEntity } from "./movingEntity.js"
 export class Enemy extends MovingEntity {
     
@@ -111,13 +111,16 @@ export class Enemy extends MovingEntity {
         const dropChance = 0.5 // Chance auf Drop - auf 50% zur besseren Visualisierung
         if (Math.random() < dropChance) {
             
-            const speedBoostChance = 0.5 // 50% Speedboost, 50% normales Item
-            if (Math.random() < speedBoostChance) {
-                enemyItemDrop.push(new SpeedBoostDrop(this.globalEntityX, this.globalEntityY))
-            } else {
-                enemyItemDrop.push(new DropSingleUse(this.globalEntityX, this.globalEntityY))
-            }
+            const roll = Math.random()
+
+        if (roll < 0.33) {
+            enemyItemDrop.push(new SpeedBoostDrop(this.globalEntityX, this.globalEntityY))
+        } else if (roll < 0.66) {
+            enemyItemDrop.push(new HealDrop(this.globalEntityX, this.globalEntityY))
+        } else {
+            enemyItemDrop.push(new DropSingleUse(this.globalEntityX, this.globalEntityY))
         }
+    }
         
         enemyXpDrop.push(new DropSingleUse(this.globalEntityX, this.globalEntityY))
     }
@@ -138,6 +141,8 @@ export function drawEnemyItem(ctx, player, map) {
 
         if (drop instanceof SpeedBoostDrop) {
             color = "orange"
+            } else if (drop instanceof HealDrop) {
+            color = "green"
         }
 
         drop.draw(ctx, screenX, screenY, 13, 13, color)
