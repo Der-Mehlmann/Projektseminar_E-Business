@@ -48,7 +48,7 @@ export class Enemy extends MovingEntity {
         const hp = 10;
         const png = null;                 //KEIN enemyImg, damit kein Fehler
         const speed = 1.0;            
-        const hitbox = { width: 32, height: 32 };  
+        const hitbox = { width: 16, height: 16 };  
         const level = 1;
         const xpDrop = 2;
         const elite = false;
@@ -93,15 +93,15 @@ export class Enemy extends MovingEntity {
         }            
         if (moveXPossible){
             if (distanceX>0)
-                this.globalEntityX = map.rightFree(this.globalEntityX, this.globalEntityY, distanceX * this.speed)
+                this.globalEntityX = map.rightFree(this.globalEntityX, this.globalEntityY, distanceX * this.speed, this.hitbox)
             if (distanceX<0)
-                this.globalEntityX = map.leftFree(this.globalEntityX, this.globalEntityY, -distanceX * this.speed)
+                this.globalEntityX = map.leftFree(this.globalEntityX, this.globalEntityY, -distanceX * this.speed, this.hitbox)
         }
         if (moveYPossible){
             if (distanceY<0)
-                this.globalEntityY = map.topFree(this.globalEntityX, this.globalEntityY, -distanceY * this.speed)
+                this.globalEntityY = map.topFree(this.globalEntityX, this.globalEntityY, -distanceY * this.speed, this.hitbox)
             if (distanceY>0)
-                this.globalEntityY = map.downFree(this.globalEntityX, this.globalEntityY, distanceY * this.speed)
+                this.globalEntityY = map.downFree(this.globalEntityX, this.globalEntityY, distanceY * this.speed, this.hitbox)
         }
     }
 
@@ -130,8 +130,8 @@ export const enemyItemDrop = []
 export const enemyXpDrop = []
 
 export function drawEnemyItem(ctx, player, map) {
-    const leftBorder = player.globalEntityX - map.FOV / 2
-    const topBorder  = player.globalEntityY - map.FOV / 2
+    const leftBorder = player.globalEntityX - map.FOVwidth / 2
+    const topBorder  = player.globalEntityY - map.FOVheight / 2
 
     for (const drop of enemyItemDrop) {
         const screenX = drop.globalEntityX - leftBorder;
@@ -150,8 +150,8 @@ export function drawEnemyItem(ctx, player, map) {
 }
 
 export function drawEnemyXp(ctx, player, map) {
-    const leftBorder = player.globalEntityX - map.FOV / 2
-    const topBorder  = player.globalEntityY - map.FOV / 2
+    const leftBorder = player.globalEntityX - map.FOVwidth / 2
+    const topBorder  = player.globalEntityY - map.FOVheight / 2
 
     for (const drop of enemyXpDrop) {
         const screenX = drop.globalEntityX - leftBorder;

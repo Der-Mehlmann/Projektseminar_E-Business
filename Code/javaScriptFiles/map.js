@@ -3,11 +3,12 @@ import { Entity } from "./entity.js";
 
 export class Map {
     
-    constructor(mapData, FOV, ctx) {
+    constructor(mapData, FOVwidth, FOVheight, ctx) {
         this.mapWidthTile = mapData.width
         this.mapHeightTile = mapData.height
         this.tilelength = mapData.tilewidth
-        this.FOV = FOV
+        this.FOVwidth = FOVwidth
+        this.FOVheight = FOVheight
         this.ctx = ctx
         this.mapDataTiles = mapData.layers
         this.map1Image = new Image()
@@ -44,46 +45,47 @@ export class Map {
 
         return (this.tileData[row][column])
     }
-    checkIfFree(mainEntityKoord, entityX, entityY, moveLengthHoriz, moveLengthVert, mapLengthOrWidth, directionX, directionY){
+    checkIfFree(entityX, entityY, moveLengthHoriz, moveLengthVert, mapLengthOrWidth, directionX, directionY, hitboxWidth, hitboxHeight){
         let mapLong = mapLengthOrWidth * this.tilelength - this.tilelength
         let mainEntityKoordInt                                                                  // Welche Koordinate bewegt werden soll
         let moveLength = this.maxAbs(moveLengthHoriz, moveLengthVert)
-        if (mainEntityKoord=="x") {
+        if (moveLengthVert==0) {     // x bewegung
             mainEntityKoordInt = entityX
         } else mainEntityKoordInt = entityY
 
         if (mainEntityKoordInt + moveLength>mapLong) return mapLong                             // MapBorder collision abfrage
         if (mainEntityKoordInt + moveLength<0) return 0
+                              
+        let mapTileNOorSW = this.findTile(entityX + hitboxWidth, entityY + hitboxHeight)                     // top rigth down left RICHTIG
+        let mapTileSOorNW = this.findTile(entityX + directionX, entityY + directionY)                        // top rigth down left RICHTIG
+        
 
-        let mapTile1 = this.findTile(entityX + directionX, entityY + directionY)                // Feld auf dem die jeweils interessierte Ecke ist: left up = NordWest  right = NO Down = SW
-        let newMapTile1 = this.findTile(entityX + moveLengthHoriz + directionX, entityY + moveLengthVert + directionY) // Feld auf das sich der Spieler bewegen würde
-
-        let newMapTile2                                                                                               // Feld2 auf das sich der Spieler bewegen würde, Spieler kann auf 2 Feldern stehen und soll sich auch nur dann bewegen wenn die Gesamte Hitbox nicht clippen würde
-        if (mainEntityKoord=="x")
-            newMapTile2 = this.findTile(entityX + moveLengthHoriz + directionX, entityY + moveLengthVert + directionY + this.tilelength)
-        else 
-            newMapTile2 = this.findTile(entityX + moveLengthHoriz + directionX + this.tilelength, + entityY + moveLengthVert + directionY)
-
-        if (mapTile1 === newMapTile1 || (newMapTile1.walkable && newMapTile2.walkable)){
-            return mainEntityKoordInt+moveLength //Falls die Bewegung erlaubt ist
-        }else 
-            return mainEntityKoordInt  //Falls man mit der Bewegung in die Wand gehen würde
+        let newMapTileNOorSW = this.findTile(entityX + moveLengthHoriz + hitboxWidth, entityY + moveLengthVert + hitboxHeight) // Feld auf das sich der Spieler bewegen würde
+        let newMapTileSOorNW = this.findTile(entityX + moveLengthHoriz + directionX, entityY + moveLengthVert + directionY) // Feld auf das sich der Spieler bewegen würde
+                                                                   
+        if ((mapTileNOorSW === newMapTileNOorSW && mapTileSOorNW === newMapTileSOorNW) || //Felder sind gleichgeblieben
+            ((newMapTileSOorNW.walkable && newMapTileNOorSW.walkable) && // keine Wand
+            (Math.abs(mapTileNOorSW.height - newMapTileNOorSW.height)<=1 && Math.abs(mapTileSOorNW.height - newMapTileSOorNW.height)<=1))){  //richtige Höhe
+            return mainEntityKoordInt+moveLength
+        }else{ 
             
+            return mainEntityKoordInt  //Falls man mit der Bewegung in die Wand gehen würde oder die auf der falschen Höhe wäre
+        }
     }
-    rightFree(entityX, entityY, moveLength){
-        return (this.checkIfFree("x", entityX, entityY,moveLength, 0,  this.mapWidthTile, this.tilelength, 0))
-    }
-
-    topFree(entityX, entityY, moveLength){
-        return (this.checkIfFree("y", entityX, entityY, 0 , -moveLength, this.mapHeightTile, 0, 0))
+    rightFree(entityX, entityY, moveLength, hitbox){
+        return (this.checkIfFree(entityX, entityY,moveLength, 0,  this.mapWidthTile, hitbox.width, hitbox.height, hitbox.width, 0))
     }
 
-    leftFree(entityX, entityY, moveLength){
-        return (this.checkIfFree("x", entityX, entityY, -moveLength, 0, this.mapWidthTile, 0, 0))
+    topFree(entityX, entityY, moveLength, hitbox){
+        return (this.checkIfFree(entityX, entityY, 0 , -moveLength, this.mapHeightTile, 0, 0, hitbox.width, 0))
     }
 
-    downFree(entityX, entityY, moveLength){
-        return (this.checkIfFree("y", entityX, entityY, 0, moveLength, this.mapHeightTile, 0, this.tilelength))
+    leftFree(entityX, entityY, moveLength, hitbox){
+        return (this.checkIfFree(entityX, entityY, -moveLength, 0, this.mapWidthTile, 0, 0, 0, hitbox.height))
+    }
+
+    downFree(entityX, entityY, moveLength, hitbox){
+        return (this.checkIfFree(entityX, entityY, 0, moveLength, this.mapHeightTile, hitbox.width, hitbox.height, 0, hitbox.height))
     }
     loadTileData(){
         for (let i = 0; i<this.mapHeightTile;i++){
@@ -155,8 +157,8 @@ export class Map {
 
     draw(player) {
         if (this.map1Loaded && this.tilesLoaded){
-            let leftBorder = player.globalEntityX - this.FOV / 2
-            let topBorder = player.globalEntityY - this.FOV / 2
+            let leftBorder = player.globalEntityX - this.FOVwidth / 2
+            let topBorder = player.globalEntityY - this.FOVheight / 2
             let tileRow = Math.floor(topBorder / this.tilelength)
             let tileRowWalker = tileRow
             let tileColumn = Math.floor(leftBorder / this.tilelength)
@@ -165,17 +167,17 @@ export class Map {
 
         this.drawTile(tileRowWalker, tileColumnWalker,  leftBorder, topBorder, 0, 0)                //Zeichnen des obersten Tiles
 
-        for (let i = this.offsetToBorder(leftBorder); i < this.FOV; i += this.tilelength) {         
+        for (let i = this.offsetToBorder(leftBorder); i < this.FOVwidth; i += this.tilelength) {         
             tileColumnWalker++
             this.drawTile(tileRowWalker,tileColumnWalker , 0, topBorder, i, 0)                      //Zeichnen der obersten Reihe
         }
 
-        for (let j = this.offsetToBorder(topBorder); j < this.FOV; j += this.tilelength) {
+        for (let j = this.offsetToBorder(topBorder); j < this.FOVheight; j += this.tilelength) {
             tileRowWalker++
             tileColumnWalker = tileColumn
             this.drawTile(tileRowWalker, tileColumnWalker , leftBorder, 0, 0, j)                     //Zeichnen der linken Reihe
         
-            for (let i = this.offsetToBorder(leftBorder); i < this.FOV; i += this.tilelength) {
+            for (let i = this.offsetToBorder(leftBorder); i < this.FOVwidth; i += this.tilelength) {
                 tileColumnWalker++  
                 this.drawTile(tileRowWalker, tileColumnWalker, 0, 0, i, j)                          //Zeichnen der inneren Tiles
             }

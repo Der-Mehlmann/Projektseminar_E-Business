@@ -140,8 +140,9 @@ export class game {
             //console.log(this.mapData.layers[0].data)
             //this.mapDataTiles = this.mapData.layers[0].data
 
-            this.MapOne = new Map(this.mapData, canvas.width, ctx)
-            this.PlayerOne = new Player(this.mapData.width * this.mapData.tilewidth / 2, this.mapData.height * this.mapData.tilewidth / 2, 100, null, 1.5, { width: 32, height: 32 }, 0, 0, 1, ctx)
+            this.MapOne = new Map(this.mapData, canvas.width, canvas.height, ctx)
+            this.PlayerOne = new Player(this.mapData.width * this.mapData.tilewidth / 2, this.mapData.height * this.mapData.tilewidth / 2, 100, null, 1.5, { width: 16, height: 16 }, 0, 0, 1, ctx)
+            console.log(this.mapData.width * this.mapData.tilewidth / 2)
             setInterval(() => this.render(), 5);
         });
 
@@ -247,8 +248,8 @@ export class game {
                 enemy.die()
                 this.enemies.splice(i, 1)                       // aus dem Array entfernen → "Monster verschwinden"
             } else {
-                let leftBorder = this.PlayerOne.globalEntityX - this.MapOne.FOV / 2
-                let topBorder = this.PlayerOne.globalEntityY - this.MapOne.FOV / 2
+                let leftBorder = this.PlayerOne.globalEntityX - this.MapOne.FOVwidth / 2
+                let topBorder = this.PlayerOne.globalEntityY - this.MapOne.FOVheight / 2
                 enemy.draw(ctx, enemy.globalEntityX - leftBorder, enemy.globalEntityY - topBorder, enemy.hitbox.width, enemy.hitbox.height, enemy.ranged ? 'yellow' : 'red') // Gegner im Sichtbereich zeichnen
             }
         }

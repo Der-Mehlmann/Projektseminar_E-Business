@@ -6,6 +6,7 @@ export class Player extends MovingEntity {
         super(globalEntityX, globalEntityY, hp, png, speed, hitbox)
         this.globalEntityX = globalEntityX
         this.globalEntityY = globalEntityY
+        
         this.xp = 0;
         this.level = 1;
         this.ausrüstung = ausrüstung;
@@ -25,13 +26,13 @@ export class Player extends MovingEntity {
             && (inputState.upPressed || inputState.downPressed))
         speed /= 1.8
         if (inputState.rightPressed)
-            this.globalEntityX = map.rightFree(this.globalEntityX, this.globalEntityY, speed);
+            this.globalEntityX = map.rightFree(this.globalEntityX, this.globalEntityY, speed, this.hitbox);
         if (inputState.upPressed)
-            this.globalEntityY = map.topFree(this.globalEntityX, this.globalEntityY, speed);
+            this.globalEntityY = map.topFree(this.globalEntityX, this.globalEntityY, speed, this.hitbox);
         if (inputState.leftPressed)
-            this.globalEntityX = map.leftFree(this.globalEntityX, this.globalEntityY, speed);
+            this.globalEntityX = map.leftFree(this.globalEntityX, this.globalEntityY, speed, this.hitbox);
         if (inputState.downPressed)
-            this.globalEntityY = map.downFree(this.globalEntityX, this.globalEntityY, speed);
+            this.globalEntityY = map.downFree(this.globalEntityX, this.globalEntityY, speed, this.hitbox);
     }
 
 
