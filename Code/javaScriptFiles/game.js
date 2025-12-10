@@ -9,6 +9,11 @@ import { Enemy } from "./enemy.js"
 import  {drawEnemyItem, drawEnemyXp} from "./enemy.js"
 import { Projectile } from "./projectile.js"
 //import { Weapon } from "./weapon.js";
+=======
+import { drawEnemyItem, drawEnemyXp, handleEnemyItemPickups, handleEnemyXpPickups} from "./enemy.js"
+import { Projectile } from "./projectile.js"
+import { Weapon } from "./weapon.js";
+>>>>>>> Stashed changes
 
 const canvas = document.getElementById('game')
 const ctx = canvas.getContext('2d')
@@ -33,6 +38,10 @@ export class game {
         this.PlayerOne = null
         this.enemies = [] // Array für alle aktiven Gegner
         this.projectiles = [] // Array für alle aktiven Projektile
+<<<<<<< Updated upstream
+=======
+         this.weapon = Weapon.create("shotgun")
+>>>>>>> Stashed changes
     }
 
     loadMap(file) {
@@ -216,7 +225,90 @@ export class game {
         document.getElementById("startScreen").style.display = "none";
         document.getElementById("winScreen").style.display = "flex";
     }
+<<<<<<< Updated upstream
 // Ende der Screen-Wechsel-Funktionen
+=======
+
+    // Ende der Screen-Wechsel-Funktionen
+
+    resetGame() {
+
+        // Timer stoppen und zurücksetzen
+        this.stopGameTimer()
+        this.resetTimer()
+
+        // Intervalle für Rendern und Gegner-Spawns stoppen
+        if (this.renderInterval) {
+            clearInterval(this.renderInterval)
+            this.renderInterval = null
+        }
+        if (this.enemySpawnInterval) {
+            clearInterval(this.enemySpawnInterval)
+            this.enemySpawnInterval = null
+        }
+
+        // Gegner-Array leeren
+        this.enemies = []
+        // Projektile-Array leeren
+        this.projectiles = []
+        // Eingabeflags zurücksetzen
+        this.upPressed = false
+        this.downPressed = false
+        this.leftPressed = false
+        this.rightPressed = false
+
+        // Spiel-status zurücksetzen
+        this.gamePaused = false
+
+        // Canvas leeren
+        ctx.clearRect(0, 0, canvas.width, canvas.height)
+
+        // Map und Spieler neu erzeugen
+        if (this.mapData) {
+            this.MapOne = new Map(this.mapData, canvas.width, canvas.height, ctx)
+            this.PlayerOne = new Player(
+                this.mapData.width * this.mapData.tilewidth / 2,
+                this.mapData.height * this.mapData.tilewidth / 2,
+                100,
+                null,
+                1.5,
+                {width: 16, height: 16},
+                0,
+                0,
+                1,
+                ctx
+            )
+        }
+
+        // Timer neu starten
+        this.startGameTimer()
+
+        // Render-Intervall neu starten
+        this.renderInterval = setInterval(() => this.render(), 5)
+
+        // Gegner-Spawning neu starten
+        if (this.mapData) {
+            this.enemySpawnInterval = setInterval(
+                () => Enemy.spawnEnemyAtEdge(
+                    this.enemies,
+                    this.mapData.width * this.mapData.tilewidth,
+                    this.mapData.height * this.mapData.tilewidth
+                ),
+                2000
+            )
+        }
+
+        // Screen-Wechsel zu Game-Screen
+        document.getElementById("defeatScreen").style.display = "none";
+        document.getElementById("winScreen").style.display = "none";
+        document.getElementById("pauseScreen").style.display = "none";
+        document.getElementById("startScreen").style.display = "none";
+        document.getElementById("settingsScreen").style.display = "none";
+        document.getElementById("gameScreen").style.display = "flex";
+
+
+    }
+>>>>>>> Stashed changes
 
     render() {
         if (this.gamePaused) {
@@ -237,7 +329,20 @@ export class game {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         this.MapOne.draw(this.PlayerOne)
         this.PlayerOne.draw(ctx, canvas.width / 2, canvas.height / 2, this.PlayerOne.hitbox.width, this.PlayerOne.hitbox.height, 'blue')
+        //WAFFE SCHIESSEN
+        this.weapon.shoot(this.PlayerOne, this.projectiles, performance.now());
 
+        //PROJEKTILE BEWEGEN + ZEICHNEN
+        Projectile.handleProjectiles(
+                ctx,
+                this.projectiles,
+                this.enemies,
+                this.PlayerOne,
+                this.MapOne,
+                () => {
+                this.killCount++;
+                }
+        );
         // Gegner bewegen, zeichnen und bei Collision entfernen
         for (let i = this.enemies.length - 1; i >= 0; i--) {
             const enemy = this.enemies[i]
