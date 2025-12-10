@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "Map1.json",
+    "activeFile": "map2Jungle.json",
     "expandedProjectPaths": [
         "."
     ],
@@ -12,12 +12,22 @@
         "": {
             "scaleInDock": 1
         },
+        "#Vulkan": {
+            "dynamicWrapping": false
+        },
+        "#Vulkan complete": {
+            "dynamicWrapping": true
+        },
+        "#tf_A5_ashlands_3": {
+            "dynamicWrapping": false,
+            "scaleInEditor": 1
+        },
         "Map1.json": {
-            "scale": 0.75,
+            "scale": 1,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 1169.3333333333333,
-                "y": 756.6666666666665
+                "x": 615,
+                "y": 206.5
             }
         },
         "Map1.json#Sonnenuntergang": {
@@ -40,20 +50,50 @@
         },
         "Map1Ges.json#terrain_tiles_v2": {
             "scaleInDock": 1
+        },
+        "map2Jungle.json": {
+            "expandedGroupLayers": [
+                3
+            ],
+            "scale": 2,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 52,
+                "y": 168.75
+            }
+        },
+        "map2Jungle.json#tf_jungle_a1": {
+            "scaleInDock": 1
+        },
+        "map2Jungle.json#tf_jungle_a2": {
+            "scaleInDock": 1
+        },
+        "map2Jungle.json#tf_jungle_a5": {
+            "scaleInDock": 1.5
+        },
+        "map2Jungle.json#tf_jungle_b": {
+            "scaleInDock": 1
         }
     },
     "last.exportedFilePath": "C:/Users/49173/Documents/GitHub/Projektseminar_E-Business/Code/Tiled",
     "last.imagePath": "C:/Users/49173/Documents/GitHub/Projektseminar_E-Business/Graphics",
-    "map.height": 90,
+    "map.height": 420,
     "map.lastUsedExportFilter": "JSON-Kartendateien (*.tmj *.json)",
     "map.lastUsedFormat": "json",
-    "map.width": 70,
+    "map.width": 420,
     "openFiles": [
-        "Map1.json"
+        "Map1.json",
+        "map2Jungle.json"
     ],
     "project": "VampirioTestMap.tiled-project",
     "recentFiles": [
-        "Map1.json"
+        "Map1.json",
+        "map2Jungle.json"
     ],
-    "tileset.embedInMap": true
+    "tileset.embedInMap": true,
+    "tileset.tileSize": {
+        "height": 32,
+        "width": 32
+    },
+    "tileset.type": 0
 }

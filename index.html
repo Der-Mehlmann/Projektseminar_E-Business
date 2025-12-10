@@ -12,7 +12,7 @@
 
         <div class="hud-section section-left">
             <div class="hud-item hud-time">
-                TIME: <span id="time-value">23:01</span>
+                TIME: <span id="hudTime">23:01</span>
             </div>
         </div>
 
@@ -24,7 +24,7 @@
 
         <div class="hud-section section-right">
             <div class="hud-item hud-xp">
-                XP: <span id="xp-value">2301</span>
+                XP: <span id="hudXP">2301</span>
             </div>
         </div>
 
@@ -38,45 +38,59 @@
     <h1 class="gameTitle">Vampirio.io</h1>
 
     <div class="menu">
-        <button class="btn" id="startButton" onclick="Game.start()">Start Game</button>
+        <button class="btn" id="startButton" onclick="Game.chooseMap()">Start Game</button>
         <button class="btn" id="settingsButton" onclick="Game.settings()">Settings</button>
+    </div>
+</section>
+
+<section class="screen" id="mapScreen">
+    <div class="menu">
+        <button class="btn" onclick="Game.mapSelect(0)">Jungle</button>
+        <button class="btn" onclick="Game.mapSelect(1)">Vanilla</button>
     </div>
 </section>
 
 <section class="screen" id="settingsScreen">
     <h2 class="screenTitle">Settings</h2>
 
-    <div class="panel ">
-        <div class="settings" id="soundSettings">
-            <input id="volume" max="1" min="0" step="0.01" type="range" value="0.5">
-            <label for="volume">Volume</label>
+    <form id="settingsForm">
+        <div class="panel">
+            <div class="settings" id="soundSettings">
+                <input id="volume" max="1" min="0" step="0.01" type="range" value="0.5">
+                <label for="volume">Volume</label>
 
-            <input checked id="effects" type="checkbox">
-            <label for="effects">Sound effects</label>
+                <input checked id="effects" type="checkbox">
+                <label for="effects">Sound effects</label>
+            </div>
+            <div class="settings" id="gameSettings">
+                <input id="speed" max="1" min="0" step="0.01" type="range" value="0.5">
+                <label for="speed">Game Speed</label>
+
+                <input id="mapChoice" max="1" min="0" step="1" type="number" value="0">
+                <label for="mapChoice">Map Choice (0-1)</label>
+
+            </div>
+            <div class="settings" id="keySettings">
+                <input id="keyUp" type="text" value="W">
+                <label for="keyUp">Move Up Key</label>
+
+                <input id="keyLeft" type="text" value="A">
+                <label for="keyLeft">Move Left Key</label>
+
+                <input id="keyDown" type="text" value="S">
+                <label for="keyDown">Move Down Key</label>
+
+                <input id="keyRight" type="text" value="D">
+                <label for="keyRight">Move Right Key</label>
+            </div>
+
+            <div class="menu">
+                <button class="btn" id="startMenuButton" onclick="Game.home()">Back</button>
+            </div>
+
+            <input class="btn" type="submit" value="Save"/>
         </div>
-        <div class="settings" id="gameSettings">
-            <input id="speed" max="1" min="0" step="0.01" type="range" value="0.5">
-            <label for="speed">Game Speed</label>
-
-        </div>
-        <div class="settings" id="keySettings">
-            <input id="keyUp" type="text" value="W">
-            <label for="keyUp">Move Up Key</label>
-
-            <input id="keyLeft" type="text" value="A">
-            <label for="keyLeft">Move Left Key</label>
-
-            <input id="keyDown" type="text" value="S">
-            <label for="keyDown">Move Down Key</label>
-
-            <input id="keyRight" type="text" value="D">
-            <label for="keyRight">Move Right Key</label>
-        </div>
-
-        <div class="menu">
-            <button class="btn" id="startMenuButton" onclick="Game.home()">Back</button>
-        </div>
-    </div>
+    </form>
 </section>
 
 <section class="screen overlay-dark" id="pauseScreen">
@@ -96,13 +110,13 @@
         You have been defeated!
     </h1>
     <div class="statsPanel">
-        <p>Time: <span class="stat-val">02:13</span></p>
-        <p>XP: <span class="stat-val">2300</span></p>
-        <p>Kills: <span class="stat-val">0</span></p>
+        <p>Time: <span class="stat-val" id="defeatTime">02:13</span></p>
+        <p>XP: <span class="stat-val" id="defeatXP">2300</span></p>
+        <p>Kills: <span class="stat-val" id="defeatKills">0</span></p>
     </div>
 
     <div class="flex-row-gap" style="margin-top: 20px;">
-        <button class="btn" id="retryButtonDefeat" onclick="Game.start()">Retry</button>
+        <button class="btn" id="retryButtonDefeat" onclick="Game.resetGame()">Retry</button>
         <button class="btn" id="startMenuButtonDefeat" onclick="Game.home()">Start Menu</button>
     </div>
 </section>
@@ -112,13 +126,13 @@
         You survived!
     </h1>
     <div class="statsPanel">
-        <p>Time: <span class="stat-val">02:13</span></p>
-        <p>XP: <span class="stat-val">2300</span></p>
-        <p>Kills: <span class="stat-val">0</span></p>
+        <p>Time: <span class="stat-val" id="winTime">02:13</span></p>
+        <p>XP: <span class="stat-val" id="winXP">2300</span></p>
+        <p>Kills: <span class="stat-val" id="winKills">0</span></p>
     </div>
 
     <div class="flex-row-gap" style="margin-top: 20px;">
-        <button class="btn" id="retryButtonWin" onclick="Game.start()">Retry</button>
+        <button class="btn" id="retryButtonWin" onclick="Game.resetGame()">Retry</button>
         <button class="btn" id="startMenuButtonWin" onclick="Game.home()">Start Menu</button>
     </div>
 </section>

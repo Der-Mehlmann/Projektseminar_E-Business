@@ -1,15 +1,21 @@
 import { StaticEntity } from "./staticEntity.js"
 export class DropSingleUse extends StaticEntity {
 
-    constructor(globalEntityX, globalEntityY) {
-        super(globalEntityX, globalEntityY)
+        constructor(globalEntityX, globalEntityY) {
+        const hitbox = { width: 13, height: 13 }
+        const png = null
+
+        super(globalEntityX, globalEntityY, hitbox, png)
         this.globalEntityX = globalEntityX
         this.globalEntityY = globalEntityY
+        this.hitbox = hitbox   
+        this.png = png
     }
 
-    use() {   // kommt später 
-        
+    apply(player) {
+        console.log("DropSingleUse picked up – noch kein Effekt definiert.")
     }
+    
 }
 
 export class SpeedBoostDrop extends DropSingleUse {
@@ -17,10 +23,10 @@ export class SpeedBoostDrop extends DropSingleUse {
     constructor(globalEntityX, globalEntityY) {
         super(globalEntityX, globalEntityY)
         this.duration = 10000 // 10 Sekunden Wirkung
-        this.speedMultiplier = 2.0
+        this.speedMultiplier = 5.0
     }
 
-    use(player) {
+    apply(player) {
         player.speed *= this.speedMultiplier
 
         setTimeout(() => {

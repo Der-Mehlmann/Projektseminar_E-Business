@@ -11,12 +11,12 @@ export class Map {
         this.FOVheight = FOVheight
         this.ctx = ctx
         this.mapDataTiles = mapData.layers
-        this.map1Image = new Image()
+        this.mapImage = new Image()
         this.map1Loaded= false
         this.tilesetImage = new Image()
         this.tilesLoaded= false
         this.tileData=[]
-        this.map1Image.onload= () =>  {
+        this.mapImage.onload= () =>  {
             this.map1Loaded= true
         }
         this.tilesetImage.onload = () => {
@@ -27,8 +27,8 @@ export class Map {
             
         };
 
-        this.tilesetImage.src = 'Graphics/terrain_tiles_v2.png'
-        this.map1Image.src = 'Graphics/map1.png'
+        this.tilesetImage.src = mapData.tilesets[0].image
+        this.mapImage.src = 'Graphics/map1.png'
     }
     maxAbs(x, y) {
     return Math.abs(x) >= Math.abs(y) ? x : y;
@@ -88,17 +88,45 @@ export class Map {
         return (this.checkIfFree(entityX, entityY, 0, moveLength, this.mapHeightTile, hitbox.width, hitbox.height, 0, hitbox.height))
     }
     loadTileData(){
+        let hoehe0
+        let hoehe1
+        let hoehe2
+        let wall
+        let design
+
+        for (let i = 0; i<this.mapDataTiles.length;i++){
+            switch (this.mapDataTiles[i].name) {
+            case "Hoehe0":
+                hoehe0=this.mapDataTiles[i].data
+                break;
+            case "Hoehe1":
+                hoehe1=this.mapDataTiles[i].data
+                break;
+            case "Hoehe2":
+                hoehe2=this.mapDataTiles[i].data
+                break;
+            case "Wall":
+                wall=this.mapDataTiles[i].data
+                break;
+            case "Design":
+                design=this.mapDataTiles[i].data
+                break;
+            }
+        }
+        
         for (let i = 0; i<this.mapHeightTile;i++){
             this.tileData[i] = []
+            
             for (let j = 0; j<this.mapWidthTile;j++){
-                let tileSetNr = this.mapDataTiles[0].data[this.getTileNr(i, j) ] -1
+                let tileSetNr = hoehe0[this.getTileNr(i, j) ] -1
                 let tileHeight = 0
                 let walkable = true
-                if (this.mapDataTiles[1].data[this.getTileNr(i, j) ]>0)
+                
+                if (wall[this.getTileNr(i, j) ]>0)
                     walkable = false
-                else if (this.mapDataTiles[2].data[this.getTileNr(i, j) ]>0)
+                else if (hoehe1[this.getTileNr(i, j) ]>0)
                     tileHeight = 1
-                else if (this.mapDataTiles[3].data[this.getTileNr(i, j ) ]>0)
+                else if (hoehe2[this.getTileNr(i, j ) ]>0)
                     tileHeight = 2
                 this.tileData[i][j] = {
                 walkable: walkable,
@@ -111,6 +139,7 @@ export class Map {
                 this.tileData[i][j]
             }
         }
+        
     }
 
 
@@ -164,7 +193,7 @@ export class Map {
             let tileColumn = Math.floor(leftBorder / this.tilelength)
             let tileColumnWalker = tileColumn
         
-
+            
         this.drawTile(tileRowWalker, tileColumnWalker,  leftBorder, topBorder, 0, 0)                //Zeichnen des obersten Tiles
 
         for (let i = this.offsetToBorder(leftBorder); i < this.FOVwidth; i += this.tilelength) {         
@@ -182,18 +211,18 @@ export class Map {
                 this.drawTile(tileRowWalker, tileColumnWalker, 0, 0, i, j)                          //Zeichnen der inneren Tiles
             }
         }   
-      this.drawMiniMap(player)
+      //this.drawMiniMap(player)
     }
 }
     drawMiniMap(player){
     let multiplier =1
     this.drawSqr(0,0, 72, 92, "black")
-    this.ctx.drawImage(this.map1Image,1,1,this.mapWidthTile*multiplier,this.mapHeightTile*multiplier)
+    this.ctx.drawImage(this.mapImage,1,1,this.mapWidthTile*multiplier,this.mapHeightTile*multiplier)
     this.drawSqr(player.globalEntityX, player.globalEntityY, 1, 1, "blue")
     
     }
     drawMiniEnemy(enemy){
-        this.drawSqr(enemy.globalEntityX , enemy.globalEntityY, 1, 1, "red")
+        //this.drawSqr(enemy.globalEntityX , enemy.globalEntityY, 1, 1, "red")
     }
     drawSqr(x, y, width, height, color) {
         let multiplier = 1

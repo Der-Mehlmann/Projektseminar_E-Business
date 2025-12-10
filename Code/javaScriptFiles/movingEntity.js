@@ -18,6 +18,7 @@ export class MovingEntity extends Entity{
         return (this.checkCollisionHorizontal(other, proposedMoveX) &&
                 this.checkCollisionVertical(other, proposedMoveY))
     }
+
     checkCollisionHorizontal(other, proposedMoveX){
         const aLeft = this.globalEntityX + proposedMoveX        // mir geplanter bewegung
         const aRight = aLeft + this.hitbox.width
@@ -34,7 +35,6 @@ export class MovingEntity extends Entity{
         if (aLeft >= bRight) return false                           // Prüfe ob horizontale Überschneidung
         return true // Überschneidung
     }
-        
 
     checkCollisionVertical(other, proposedMoveY){
         const aTop = this.globalEntityY + proposedMoveY        // mir geplanter bewegung
@@ -53,19 +53,67 @@ export class MovingEntity extends Entity{
         return true // Überschneidung
     }
 
+    attemptMoveAxis(self, axis, move, enemyArray, map, visited = new Set){
+        if (visited.has(self)){     //Verhindert das selbe Objekt mehrfach besucht wird
+            return { success: false}
+        }
+        visited.add(self)
+
+        if (move == 0) return {success: true}
+        const colliding=[] //Array mit Entitys die gepusht werden müssten damit true
+        for (const other of enemyArray) {
+            if (other === self) continue
+            if (axis == 'x'){
+                if (self.checkCollisionHorizontal(other, move)){    //Horizontale überlappung mit einem gegener--> somit einfügen in das Array colliding
+                    colliding.push(other) 
+                }
+            }else { // Y-Achse
+                if (self.checkCollisionVertical(other, move)){    //Vertikale überlappung mit einem gegener--> somit einfügen in das Array colliding
+                    colliding.push(other) 
+                }
+            }
+        }// alle Enemys die Kollidieren mit diesen einem Enemy eingetragen
+ 
+        for (const other of colliding){ // jedes Objekt welches bisher kollidierte
+            const result = this.attemptMoveAxis(other, axis, move, enemyArray, map, visited) // REKURSIVER Aufruf(dadurch wird die Kettenreaktion angeschaut)
+            if (!(result.success)){
+                return {success: false} // wenn irgendein Objekt (Entity/Enemy) nicht verschoben werden konnte
+            }
+        }   
+        if (axis == 'x'){
+            let newX
+            if (move > 0) newX = map.rightFree(self.globalEntityX, self.globalEntityY, move, self.hitbox) //rechts
+            else newX = map.leftFree(self.globalEntityX, self.globalEntityY, -move, self.hitbox)          //links
+            const actualMove = Math.abs(newX - self.globalEntityX)
+                if (actualMove != 0){
+                    self.globalEntityX = newX
+                    return {success: true}
+                }else {
+                    return {success: false}
+                }    
+        }else { // Y-Achse
+            let newY
+            if (move > 0) newY = map.downFree(self.globalEntityX, self.globalEntityY, move, self.hitbox)    //runter
+            else newY = map.topFree(self.globalEntityX, self.globalEntityY, -move, self.hitbox)             //hoch
+            const actualMove =  Math.abs(newY- self.globalEntityY)
+            if (actualMove != 0){
+                self.globalEntityY = newY
+                return {success: true}
+            }else {
+                return {success: false}
+            }
+        }  
+    }
+
     // Schadensfunktion: reduziert HP und gibt Status + aktuelle HP zurück
     takeDmg(amount) {
         this.hp -= amount;
-
         if (this.hp <= 0) {
             this.hp = 0;
-            this.die?.(); // optional: Subklasse kann die() definieren
-            return { dead: true, hp: this.hp };
+            this.die();
         }
-
-        return { dead: false, hp: this.hp };
     }
 
-    die() { // Platzhalter, kann in Subklassen überschrieben werden
+    die() {
     }
 }

@@ -416,7 +416,7 @@
         {
          "columns":10,
          "firstgid":1,
-         "image":"..\/..\/Graphics\/terrain_tiles_v2.png",
+         "image":"Graphics/terrain_tiles_v2.png",
          "imageheight":512,
          "imagewidth":320,
          "margin":0,
