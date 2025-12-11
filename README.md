@@ -4,7 +4,11 @@ This repository contains a browser-based game developed for a university project
 
 ## About The Project
 
-This project is a simple browser game created using fundamental web technologies. 
+This project is a simple browser game created using fundamental web technologies.
+
+## Documentation
+
+*   **[Class Diagram](KLASSENDIAGRAMM.md)** - Complete class structure and relationships in Mermaid format 
 
 ## Built With
 
