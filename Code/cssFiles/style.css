@@ -1,53 +1,54 @@
 @import url('https://fonts.googleapis.com/css2?family=Jersey+10&family=Pixelify+Sans:wght@400..700&display=swap');
 
 :root {
-	--black: #000000;
-	--brown: #a52a2a;
-	--red: #ff0000;
-	--white: #ffffff;
-	--yellow: #ffff00;
-	--dark-brown: #5c3317;
-	--font-primary: 'Jersey 10', sans-serif;
+    --black: #000000;
+    --brown: #a52a2a;
+    --red: #ff0000;
+    --white: #ffffff;
+    --yellow: #ffff00;
+    --dark-brown: #5c3317;
+    --font-primary: 'Jersey 10', sans-serif;
 }
 
 body, html {
-	align-items: center;
-	background-color: #333;
-	display: flex;
-	flex-direction: column;
-	font-family: var(--font-primary);
-	gap: 20px;
-	height: auto;
-	image-rendering: pixelated;
-	justify-content: center;
-	margin: 0;
-	overflow: hidden;
-	padding: 20px;
-	width: auto;
+    align-items: center;
+    background-color: #333;
+    display: flex;
+    flex-direction: column;
+    font-family: var(--font-primary);
+    gap: 20px;
+    height: auto;
+    image-rendering: pixelated;
+    justify-content: center;
+    margin: 0;
+    overflow: hidden;
+    padding: 20px;
+    width: auto;
+    max-width: 100%;
 }
 
 h1 {
-	color: red;
-	font-size: 128px;
-	margin: 0;
+    color: red;
+    font-size: 128px;
+    margin: 0;
 }
 
 /* Screen Styles */
 
 .screen {
-	align-items: center;
-	display: none;
-	flex-direction: column;
-	height: 100%;
-	justify-content: center;
-	left: 0;
-	position: absolute;
-	top: 0;
-	width: 100%;
+    align-items: center;
+    display: none;
+    flex-direction: column;
+    height: 100%;
+    justify-content: center;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
 }
 
 .screen.active {
-	display: flex;
+    display: flex;
 }
 
 #gameScreen {
@@ -57,205 +58,217 @@ h1 {
 /* Button Styles */
 
 .btn {
-	background-color: var(--red);
-	border: 4px solid var(--yellow);
-	box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.6);
-	color: var(--yellow);
-	cursor: pointer;
-	font-family: var(--font-primary);
-	font-size: 42px;
-	margin-bottom: 10px;
-	padding: 15px 20px;
-	text-align: center;
-	text-shadow: 2px 2px 0px var(--black);
-	text-transform: uppercase;
-	transition: all 0.1s;
-	width: 100%;
+    background-color: var(--red);
+    border: 4px solid var(--yellow);
+    box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.6);
+    color: var(--yellow);
+    cursor: pointer;
+    font-family: var(--font-primary);
+    font-size: 42px;
+    margin-bottom: 10px;
+    padding: 15px 20px;
+    text-align: center;
+    text-shadow: 2px 2px 0px var(--black);
+    text-transform: uppercase;
+    transition: all 0.1s;
+    width: 100%;
 }
 
 .btn:hover {
-	background-color: var(--yellow);
-	box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.6);
-	color: var(--red);
-	transform: translate(-2px, -2px);
+    background-color: var(--yellow);
+    box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.6);
+    color: var(--red);
+    transform: translate(-2px, -2px);
 }
 
 /* Title Styles */
 
 .gameTitle {
-	color: var(--red);
-	margin-bottom: 50px;
-	text-align: center;
-	text-shadow: 4px 4px 0px var(--yellow);
+    color: var(--red);
+    margin-bottom: 50px;
+    text-align: center;
+    text-shadow: 4px 4px 0px var(--yellow);
 }
 
 .screenTitle {
-	color: var(--yellow);
-	font-size: 64px;
-	margin-bottom: 30px;
-	text-align: center;
-	text-shadow: 4px 4px 0px var(--red);
+    color: var(--yellow);
+    font-size: 64px;
+    margin-bottom: 30px;
+    text-align: center;
+    text-shadow: 4px 4px 0px var(--red);
 }
 
 /* Layout Styles */
 
 .menu {
-	display: flex;
-	flex-direction: column;
-	gap: 15px;
-	max-width: 90%;
-	width: 350px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    max-width: 90%;
+    width: 350px;
 }
 
 .panel {
-	align-items: stretch;
-	display: flex;
-	flex-direction: row;
-	gap: 100px;
-	justify-content: center;
-	margin-bottom: 40px;
-	max-width: 90%;
-	padding: 20px;
-	width: auto;
+    align-items: stretch;
+    display: flex;
+    flex-direction: row;
+    gap: 100px;
+    justify-content: center;
+    margin-bottom: 40px;
+    max-width: 90%;
+    padding: 20px;
+    width: auto;
+}
+
+.level {
+    border: 4px solid var(--yellow);
+    box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.6);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 40px;
+    margin: 0px;
+    width: auto;
+    height: auto;
 }
 
 .settings {
-	border: 4px solid var(--yellow);
-	box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.6);
-	display: flex;
-	flex-direction: column;
-	gap: 15px;
-	padding: 40px;
+    border: 4px solid var(--yellow);
+    box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.6);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 40px;
 }
 
 .statsPanel p {
-	color: var(--yellow);
-	display: flex;
-	font-size: 36px;
-	justify-content: space-between;
-	margin: 10px 0;
-	width: 250px;
+    color: var(--yellow);
+    display: flex;
+    font-size: 36px;
+    justify-content: space-between;
+    margin: 10px 0;
+    width: 250px;
 }
 
 .stat-val {
-	color: var(--yellow);
+    color: var(--yellow);
 }
 
 .flex-row-gap {
-	display: flex;
-	gap: 15px;
-	max-width: 90%;
-	width: auto;
+    display: flex;
+    gap: 15px;
+    max-width: 90%;
+    width: auto;
 }
 
 .flex-row-gap .btn {
-	margin-bottom: 0; /* Margin im Flex-Container entfernen */
+    margin-bottom: 0; /* Margin im Flex-Container entfernen */
 }
 
 .overlay-dark {
-	align-items: center;
-	backdrop-filter: blur(5px);
-	background-color: rgba(0, 0, 0, 0.7);
-	display: flex;
-	display: none;
+    align-items: center;
+    backdrop-filter: blur(5px);
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    display: none;
 
-	flex-direction: column;
-	height: 100%;
+    flex-direction: column;
+    height: 100%;
 
 
-	justify-content: center;
-	left: 0;
-	position: absolute;
-	top: 0;
+    justify-content: center;
+    left: 0;
+    position: absolute;
+    top: 0;
 
-	width: 100%;
+    width: 100%;
 
-	z-index: 10;
+    z-index: 10;
 }
 
 /*HUD Styles*/
 /* --- 8-BIT HUD TOP PANEL STYLES (FLEX VERSION) --- */
 
 .hud-top-panel-flex {
-	/* Wir nutzen jetzt Flexbox */
-	align-items: center; /* Vertikale Zentrierung */
-	background-color: var(--brown);
-	/* justify-content ist hier eigentlich egal, da die Kinder flex: 1 haben */
+    /* Wir nutzen jetzt Flexbox */
+    align-items: center; /* Vertikale Zentrierung */
+    background-color: var(--brown);
+    /* justify-content ist hier eigentlich egal, da die Kinder flex: 1 haben */
 
-	/* Positionierung ganz oben (gleich wie vorher) */
-	border-bottom: 4px solid #7c5e35;
-	box-shadow: 0px 4px 0px rgba(0, 0, 0, 0.4);
-	color: var(--white);
-	display: flex;
-	font-family: var(--font-primary);
+    /* Positionierung ganz oben (gleich wie vorher) */
+    border-bottom: 4px solid #7c5e35;
+    box-shadow: 0px 4px 0px rgba(0, 0, 0, 0.4);
+    color: var(--white);
+    display: flex;
+    font-family: var(--font-primary);
 
-	/* 8-Bit Panel Look (gleich wie vorher) */
-	font-size: 42px;
-	left: 0;
-	position: absolute;
+    /* 8-Bit Panel Look (gleich wie vorher) */
+    font-size: 42px;
+    left: 0;
+    position: absolute;
 
-	/* Typografie Basis (gleich wie vorher) */
-	text-transform: uppercase;
-	top: 0;
-	white-space: nowrap;
-	width: 100%;
-	/* Verhindert, dass die Zeit/XP umbrechen, wenn es eng wird */
-	z-index: 100;
+    /* Typografie Basis (gleich wie vorher) */
+    text-transform: uppercase;
+    top: 0;
+    white-space: nowrap;
+    width: 100%;
+    /* Verhindert, dass die Zeit/XP umbrechen, wenn es eng wird */
+    z-index: 100;
 }
 
 /* --- Die Magie der perfekten Zentrierung --- */
 
 /* Alle 3 Sektionen bekommen exakt den gleichen Platzanteil */
 .hud-section {
-	display: flex; /* Damit wir den Inhalt darin ausrichten können */
-	flex: 1;
+    display: flex; /* Damit wir den Inhalt darin ausrichten können */
+    flex: 1;
 }
 
 /* Inhalte in den Sektionen ausrichten */
 .section-left {
-	justify-content: center;
+    justify-content: center;
 }
 
 .section-center {
-	justify-content: center;
+    justify-content: center;
 }
 
 .section-right {
-	justify-content: center
+    justify-content: center
 }
 
 
 /* --- Styling der eigentlichen Inhalte (fast gleich wie vorher) --- */
 
 .hud-title {
-	color: var(--yellow);
-	font-size: 42px;
-	text-shadow: 2px 2px 0px #000;
+    color: var(--yellow);
+    font-size: 42px;
+    text-shadow: 2px 2px 0px #000;
 }
 
 .hud-xp {
-	color: var(--yellow);
+    color: var(--yellow);
 }
 
 .hud-time {
-	color: var(--yellow);
+    color: var(--yellow);
 }
 
 .hud-item span {
-	color: var(--white);
+    color: var(--white);
 }
 
 progress {
-	height: 20px;
-	width: 200px;
+    height: 20px;
+    width: 200px;
 }
 
 #hudHealthProgress {
-	accent-color: var(--yellow);
+    accent-color: var(--yellow);
 }
 
 #hudXpProgress {
-	accent-color: blue;
+    accent-color: blue;
 }
 
 /* Ende HUD Styles */
