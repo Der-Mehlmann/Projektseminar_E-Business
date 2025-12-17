@@ -33,6 +33,18 @@ export class Projectile extends MovingEntity {
                     break;
                 }
             }
+        const canvas  = ctx.canvas;
+        const screenX = this.globalEntityX - player.globalEntityX + (canvas.width / 2);
+        const screenY = this.globalEntityY - player.globalEntityY + (canvas.height / 2);
+
+        if (
+            screenX + this.size < 0 ||
+            screenX - this.size > canvas.width ||
+            screenY + this.size < 0 ||
+            screenY - this.size > canvas.height
+        ) {
+            projectiles.splice(projectileIndex, 1);
+        }
     }
 
     move(map, projectiles, projectileIndex) {
