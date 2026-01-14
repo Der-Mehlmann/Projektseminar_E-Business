@@ -4,9 +4,9 @@ import {Entity} from "./entity.js"
 import {Map} from "./map.js"
 //import { Obstacles } from "./obstacles.js"
 import {Player} from "./player.js"
-import {Enemy} from "./enemy.js"
 import {Projectile} from "./projectile.js"
-import { EnemyFactory } from "./EnemyFactory.js"
+import {EnemyFactory} from "./EnemyFactory.js"
+
 const canvas = document.getElementById('game')
 const ctx = canvas.getContext('2d')
 
@@ -91,8 +91,10 @@ export class game {
         }
         // Escape zum Pausieren
         if (e.key === "Escape") {
-            if (document.getElementById("gameScreen").style.display === "flex") {
+            if (document.getElementById("gameScreen").style.display === "flex" && this.gamePaused === false) {
                 this.pauseGame() // Spiel nur pausieren, wenn Game läuft
+            } else if (document.getElementById("pauseScreen").style.display === "flex" && (this.gamePaused === true)) {
+                this.resumeGame()
             }
         }
     }
@@ -165,15 +167,14 @@ export class game {
 
         Entity.FOVwidthMiddle = canvas.width / 2
         Entity.FOVheightMiddle = canvas.height / 2
-        
+
         //Map Switch
         this.mapData = []
         this.loadMap(this.mapChoice).then(() => {  //andere Map: ./Code/Tiled/Map1.json      ./Code/Tiled/map2Jungle.json
             this.mapData = this.mapData[0];
             this.MapOne = new Map(this.mapData, this.mapChoicePng, canvas.width, canvas.height, ctx)
             this.PlayerOne = new Player(this.mapData.width * this.mapData.tilewidth / 2, this.mapData.height * this.mapData.tilewidth / 2, this.Health, this.maxHealth, this.XP, null, 5, {
-                width: 16,
-                height: 16
+                width: 16, height: 16
             }, 0, 0, 1, ctx, this.end.bind(this), canvas.width / 2, canvas.height / 2, this.mapData.width, this.mapData.height, this.gridWidth) //game abonniert tod des players, indem es this.end übergibt (Observer pattern)
             this.ProjectileSystem = new Projectile(0, 0, 0, 0, 0, 0, 0, 0, 0)
             this.hudHealthProgress.max = this.PlayerOne.maxHp
@@ -369,7 +370,7 @@ export class game {
             rightPressed: this.rightPressed
         }, performance.now(), this.enemies, this.gridWidth)
 
-        
+
         //this.killCount += kills
         // Gegner bewegen, zeichnen und bei Collision entfernen
         for (let row = 0; row <= Math.floor(this.mapData.height / (this.gridWidth)); row++) {
@@ -379,7 +380,7 @@ export class game {
                 }
             }
         }
-        
+
         this.hudHealthProgress.max = this.PlayerOne.maxHp
         this.hudHealthProgress.value = this.PlayerOne.hp
         document.getElementById("hudXP").innerHTML = this.PlayerOne.xp
