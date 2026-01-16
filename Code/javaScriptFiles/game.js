@@ -28,7 +28,7 @@ export class game {
 
     enemySpawnInterval = null // Intervall für Gegner-Spawns
     renderInterval = null // Intervall für das Rendern
-
+    
     gamePaused = false // Flag, ob das Spiel pausiert ist
 
     hudHealthProgress = document.getElementById("hudHealthProgress")
@@ -182,6 +182,7 @@ export class game {
             this.hudXpProgress.max = this.PlayerOne.xpForNextLevel
             this.hudXpProgress.value = this.PlayerOne.xp
             // Erstellen des GridArrays für Enemie und Projectile
+
             for (let row = 0; row <= Math.floor(this.mapData.height / (this.gridWidth)); row++) {
                 this.enemies[row] = []
                 for (let column = 0; column <= Math.floor(this.mapData.width / (this.gridWidth)); column++) {
@@ -189,9 +190,7 @@ export class game {
                 }
             }
             this.renderInterval = setInterval(() => this.render(), 5);
-            this.enemySpawnInterval = setInterval(() => {
-                EnemyFactory.spawnEnemyOutsideView(this.enemies, this.PlayerOne, canvas, this.mapData.tilewidth, this.gridWidth, this.mapData.width, this.mapData.height)
-            }, 200)
+            this.startEnemySpawning();
             this.resetTimer()
             this.startGameTimer()
         });
@@ -203,6 +202,39 @@ export class game {
         document.getElementById("mapScreen").style.display = "none";
         document.getElementById("gameScreen").style.display = "flex";
 
+    }
+
+    startEnemySpawning() {
+        const spawn = () => {
+            if (this.gamePaused) return;
+
+            EnemyFactory.spawnEnemyOutsideView(this.enemies, this.PlayerOne, canvas, this.mapData.tilewidth, this.gridWidth, this.mapData.width, this.mapData.height, this.MapOne, 8 /*Anzahl der Gegner pro Spawn*/)
+            this.enemySpawnInterval = setTimeout(spawn, this.getCurrentSpawnInterval())       // quasi rekursiver Aufruf, nur mit variablem Rekursionsschritt (getCurrentSpawnInterval)  mit sich veränderbaren Intervall
+        };
+    
+    spawn();
+    }
+    getCurrentSpawnInterval() {
+        return 500 / this.getSpawnIntensity(this.gameTimer); // 5000  is das Startintervall
+}
+
+    getSpawnIntensity(t) {
+        console.log("Timer: " + t)
+        if (t < 60) {
+            return 0.2 + 0.4 * (t / 60);
+        } else if (t < 150) {
+            return 0.6 + 0.4 * ((t - 60) / 90);
+        } else if (t < 180) {
+            return 0.5;
+        } else if (t < 300) {
+            return 0.5 + 0.4 * ((t - 180) / 120);
+        } else if (t < 330) {
+            return 0.4;
+        } else if (t < 510) {
+            return 0.4 + 0.6 * ((t - 330) / 180);
+        } else {
+            return 1.0;
+        }    
     }
 
     // Beginn der Screen-Wechsel-Funktionen

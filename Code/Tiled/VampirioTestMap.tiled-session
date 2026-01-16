@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "map2Jungle.json",
+    "activeFile": "",
     "expandedProjectPaths": [
         "."
     ],
@@ -24,11 +24,11 @@
             "scaleInEditor": 1
         },
         "Map1.json": {
-            "scale": 1,
-            "selectedLayer": 0,
+            "scale": 0.125,
+            "selectedLayer": 2,
             "viewCenter": {
-                "x": 615,
-                "y": 206.5
+                "x": 4020,
+                "y": 2460
             }
         },
         "Map1.json#Sonnenuntergang": {
@@ -56,11 +56,11 @@
             "expandedGroupLayers": [
                 3
             ],
-            "scale": 2,
+            "scale": 0.0625,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 1549,
-                "y": 12900.25
+                "x": 9488,
+                "y": 8616
             }
         },
         "map2Jungle.json#tf_jungle_a1": {
@@ -85,10 +85,9 @@
     "map.lastUsedFormat": "json",
     "map.width": 420,
     "openFiles": [
-        "Map1.json",
-        "map2Jungle.json"
     ],
     "project": "VampirioTestMap.tiled-project",
+    "property.type": "int",
     "recentFiles": [
         "Map1.json",
         "map2Jungle.json"
