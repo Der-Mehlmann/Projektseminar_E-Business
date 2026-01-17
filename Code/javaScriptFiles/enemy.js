@@ -108,7 +108,7 @@ export class Enemy extends MovingEntity {
                     width: 16,
                     height: 16
                 }, null))
-            }   else if (roll < 0.65) {
+            }   else if (roll < 0.4) {
                 enemyItemDrops.push(new XpMagnetDrop(this.globalEntityX, this.globalEntityY, {
                     width: 16,
                     height: 16
