@@ -36,7 +36,6 @@ export class Projectile extends MovingEntity {
 
     handleProjectiles(ctx, projectiles, projectileIndex, enemies, player, map, gridWidth, enemyItemDrops, currentTime) {
         // Loop through projectiles for movement, drawing, and collision
-        let killCount=0
 
         if (this.isFireball) {
             const elapsedTime = currentTime - this.creationTime;
