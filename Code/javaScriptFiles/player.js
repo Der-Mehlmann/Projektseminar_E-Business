@@ -107,7 +107,6 @@ export class Player extends MovingEntity {
                 break;
         }
     }
-// New method to shoot all weapons at once for testing
     shootAllWeapons(currentTime, enemies, map) {
         // Toggle all weapons mode on/off
         this.allWeaponsActive = !this.allWeaponsActive;
