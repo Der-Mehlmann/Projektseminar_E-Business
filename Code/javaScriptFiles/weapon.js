@@ -502,7 +502,7 @@ export class ThunderstrikeWeapon extends Weapon {
 
 export class SpeerWeapon extends Weapon {
     constructor(shooter, mapWidth, mapHeight, gridWidth) {
-        super(null, "Speer", null, 300, 1200, 1, 0, 2000, 1, 1, shooter, mapWidth, mapHeight, gridWidth);
+        super(null, "Spear", null, 300, 1200, 1, 0, 2000, 1, 1, shooter, mapWidth, mapHeight, gridWidth);
         this.projectileSize = 12;
         this.projectileDuration = -1;
         this.tilelength = mapWidth / gridWidth;
