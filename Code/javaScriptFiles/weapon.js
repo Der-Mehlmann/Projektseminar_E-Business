@@ -703,7 +703,7 @@ export class FireballWeapon extends Weapon {
                 const dy = targetEntity.globalEntityY - this.shooter.globalEntityY;
                 const angle = Math.atan2(dy, dx);
                 dir = { x: Math.cos(angle), y: Math.sin(angle) };
-            } else if (this.focus === 1) {
+            } else if (this.piercing === 1) {
                 let closestEnemy = {enemy: null, distance: 99999};
                 for (let i = enemies.length - 1; i >= 0; i--) {
                     for (let n = enemies[i].length -1 ; n>= 0; n--){
