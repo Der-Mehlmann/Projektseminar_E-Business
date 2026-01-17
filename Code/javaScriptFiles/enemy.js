@@ -1,5 +1,4 @@
 import {HealDrop, SpeedBoostDrop, XpDrop, XpMagnetDrop, NukeDrop, FreezeDrop} from "./dropSingleUse.js"
-import {Weapon} from "./weapon.js"
 import {MovingEntity} from "./movingEntity.js"
 
 export class Enemy extends MovingEntity {
