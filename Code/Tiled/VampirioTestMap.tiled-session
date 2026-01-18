@@ -3,11 +3,12 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "",
+    "activeFile": "Dungeon.json",
     "expandedProjectPaths": [
         "."
     ],
     "exportAsImage.useCurrentScale": true,
+    "file.lastUsedOpenFilter": "Alle Dateien (*)",
     "fileStates": {
         "": {
             "scaleInDock": 1,
@@ -22,6 +23,33 @@
         "#tf_A5_ashlands_3": {
             "dynamicWrapping": false,
             "scaleInEditor": 1
+        },
+        "Dungeon.json": {
+            "scale": 32,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 3082.34375,
+                "y": 6380.953125
+            }
+        },
+        "Dungeon.json#DungeonDesign": {
+            "scaleInDock": 2,
+            "scaleInEditor": 1
+        },
+        "Dungeon.json#DungeonTiles": {
+            "scaleInDock": 1.5
+        },
+        "Dungeon.json#Idle1-imageonline.co-merged-imageonline.co-merged": {
+            "scaleInDock": 1
+        },
+        "Dungeon.json#Objects": {
+            "scaleInEditor": 1
+        },
+        "Dungeon.json#Other_objects": {
+            "scaleInDock": 1
+        },
+        "Dungeon.json#supplies_objects": {
+            "scaleInDock": 1
         },
         "Map1.json": {
             "scale": 0.125,
@@ -56,11 +84,11 @@
             "expandedGroupLayers": [
                 3
             ],
-            "scale": 0.0625,
+            "scale": 0.33,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 9488,
-                "y": 8616
+                "x": 6306.060606060606,
+                "y": 4592.424242424242
             }
         },
         "map2Jungle.json#tf_jungle_a1": {
@@ -85,14 +113,18 @@
     "map.lastUsedFormat": "json",
     "map.width": 420,
     "openFiles": [
+        "Dungeon.json"
     ],
     "project": "VampirioTestMap.tiled-project",
     "property.type": "int",
     "recentFiles": [
+        "Dungeon.json",
         "Map1.json",
         "map2Jungle.json"
     ],
     "tileset.embedInMap": true,
+    "tileset.margin": 0,
+    "tileset.spacing": 0,
     "tileset.tileSize": {
         "height": 32,
         "width": 32

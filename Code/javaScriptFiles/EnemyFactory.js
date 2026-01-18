@@ -60,8 +60,7 @@ export class EnemyFactory{
                 let gridMapTile = {column : Math.floor(x / (gridWidth*tilewidth)), row : Math.floor(y / (gridWidth*tilewidth))}
                 if(MovingEntity.spawnCheck(MapOne, x, y, tilewidth, tilewidth)){
                     enemiesArray[gridMapTile.row][gridMapTile.column].within.push(EnemyFactory.createRandomEnemy(x, y, gridMapTile, mapWidth, mapHeight, gridWidth));
-                }else 
-                    console.log("Spawnpunkt ungültig" + x + " " + y);
+                }
             }
         }
     }   

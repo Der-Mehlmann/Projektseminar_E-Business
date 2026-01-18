@@ -15,6 +15,7 @@ export class Player extends MovingEntity {
         this.level = 1;
         this.png = png;
         this.baseSpeed = speed;
+        this.speed = 2     ;
         this.hitbox = hitbox;
         this.ausrüstung = ausrüstung;
         this.weapons = weapons;
