@@ -6,12 +6,10 @@ export class EnemySlime extends Enemy {
         this.hp = 20
         this.speed = 1
         this.png = "./Graphics/enemiesPNG/Schleim/1.png"
-        this.hitbox = {width: 16, height: 16}
+        this.hitbox = {width: 1706 / 22, height: 964 / 22}
 
         const img = new Image();
-        img.onload = () => {
-            this.hitbox = {width: (img.naturalWidth / 12), height: (img.naturalHeight / 12)};
-        };
+
         img.src = this.png;
 
         this.level = 1

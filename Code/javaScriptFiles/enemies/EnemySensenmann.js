@@ -6,12 +6,9 @@ export class EnemySensenmann extends Enemy {
         this.hp = 75
         this.speed = 1
         this.png = "./Graphics/enemiesPNG/Sense/1.png"
-        this.hitbox = {width: 13, height: 13}
+        this.hitbox = {width: 634/9, height: 603/9}
 
         const img = new Image();
-        img.onload = () => {
-            this.hitbox = {width: (img.naturalWidth / 7), height: (img.naturalHeight / 7)};
-        };
         img.src = this.png;
 
         this.level = 1

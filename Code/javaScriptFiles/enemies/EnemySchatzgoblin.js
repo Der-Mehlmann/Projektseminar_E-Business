@@ -6,12 +6,9 @@ export class EnemySchatzgoblin extends Enemy {
         this.currentHPHP = this.hp = 1500
         this.speed = 10
         this.png = "./Graphics/enemiesPNG/Goblin/1.png"
-        this.hitbox = {width: 22, height: 22}
+        this.hitbox = {width: 530/8, height: 577/8}
 
         const img = new Image();
-        img.onload = () => {
-            this.hitbox = {width: (img.naturalWidth / 8), height: (img.naturalHeight / 8)};
-        };
         img.src = this.png;
 
         this.level = 1

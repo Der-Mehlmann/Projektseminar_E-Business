@@ -7,12 +7,9 @@ export class EnemySkellet extends Enemy {
         this.hp = 35
         this.speed = 1
         this.png = "./Graphics/enemiesPNG/Skellet/2.png"
-        this.hitbox = {width: 24, height: 24}
+        this.hitbox = {width: 447/13, height: 683/13}
 
         const img = new Image();
-        img.onload = () => {
-            this.hitbox = {width: (img.naturalWidth / 8), height: (img.naturalHeight / 8)};
-        };
         img.src = this.png;
 
         this.level = 1

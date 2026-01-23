@@ -6,12 +6,9 @@ export class EnemyReiter extends Enemy {
         this.hp = 80
         this.speed = 2.5
         this.png = "./Graphics/enemiesPNG/Reiter/1.png"
-        this.hitbox = {width: 12, height: 12}
+        this.hitbox = {width: 663/9, height: 693/9}
 
         const img = new Image();
-        img.onload = () => {
-            this.hitbox = {width: (img.naturalWidth / 7), height: (img.naturalHeight / 7)};
-        };
         img.src = this.png;
 
         this.level = 1

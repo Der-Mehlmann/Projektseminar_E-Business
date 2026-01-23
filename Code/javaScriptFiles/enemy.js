@@ -41,7 +41,7 @@ export class Enemy extends MovingEntity {
         let distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY) //Hypotenuse von Enemy zu Player berechnet distance
         if (distance <= 0) return //bleibt stehen bei distance = 0
 
-        const stopDistance = 200 // Ranged-Enemy bleibt ab bestimmter Distanz stehen (z.B. 200px)
+        const stopDistance = 500 // Ranged-Enemy bleibt ab bestimmter Distanz stehen (z.B. 200px)
         if (this.ranged && distance <= stopDistance) {
             return
         }
@@ -168,6 +168,8 @@ export class Enemy extends MovingEntity {
         let distanceY = player.globalEntityY - this.globalEntityY;
         let distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
 
+        // Nutze die Eigenschaft oder fallback auf den bisherigen Wert
+        let stopDistance = 400;
         // Schieß-Reichweite - passend zur Waffen-Range
         let shootDistance = this.weapon?.range || 500;
 

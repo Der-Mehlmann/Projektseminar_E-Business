@@ -6,12 +6,9 @@ export class EnemyGepanzerterRitter extends Enemy {
         this.hp = 500
         this.speed = 0.5
         this.png = "./Graphics/enemiesPNG/GepanzertRitter/1.png"
-        this.hitbox = {width: 26, height: 26}
+        this.hitbox = {width: 518/6, height: 598/6}
 
         const img = new Image();
-        img.onload = () => {
-            this.hitbox = {width: (img.naturalWidth / 8), height: (img.naturalHeight / 8)};
-        };
         img.src = this.png;
 
         this.level = 1

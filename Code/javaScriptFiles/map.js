@@ -196,7 +196,6 @@ export class Map {
                 }
             }
         }
-        console.log(this.tileData[0][10])
         this.tileDataLoaded = true
     }
 

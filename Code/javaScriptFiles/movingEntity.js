@@ -14,8 +14,22 @@ export class MovingEntity extends Entity {
 
     // Prüft, ob zwei Entities kollidieren (AABB-Kollision)
 
-    static spawnCheck(map, globalEntityX, globalEntityY, hitboxWidth, hitboxHeight) {
-        return (map.findTile(globalEntityX, globalEntityY).walkable && map.findTile(globalEntityX, globalEntityY + hitboxHeight).walkable && map.findTile(globalEntityX + hitboxWidth, globalEntityY).walkable && map.findTile(globalEntityX + hitboxWidth, globalEntityY + hitboxHeight).walkable)
+    spawnCheck(map, hitboxWidth, hitboxHeight) {
+        return (map.findTile(this.globalEntityX, this.globalEntityY).walkable && map.findTile(this.globalEntityX, this.globalEntityY + hitboxHeight-1).walkable && map.findTile(this.globalEntityX + hitboxWidth-1, this.globalEntityY).walkable && map.findTile(this.globalEntityX + hitboxWidth-1, this.globalEntityY + hitboxHeight -1).walkable)
+    }
+
+    checkSpawnCollision(enemiesArray, gridMapTile) {
+        for (let row = gridMapTile.row - 1; row <= gridMapTile.row + 1; row++) {
+            for (let column = gridMapTile.column - 1; column <= gridMapTile.column + 1; column++) {
+                for (const other of enemiesArray[row][column].within){
+                    if (other === this) continue
+                    if (this.checkCollision(other, 0, 0)){
+                    return true
+                    }
+                }
+            }
+        }
+        return false
     }
 
     checkCollision(other, proposedMoveX, proposedMoveY) {
