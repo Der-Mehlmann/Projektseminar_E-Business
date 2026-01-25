@@ -9,16 +9,18 @@ export class EquipmentDash extends Equipment {
         this.cooldown = 0;
         this.dashDuration = 10; // Wie viele Frames der Dash dauert
         this.isDashing = false;
+        this.baseCooldown = 1700; // Basis-Cooldown in Frames, sind ca 10 sek.
+        this.cooldownReductionPerLevel = 170; // Reduziert den Cooldown um ca 1 Sekunde pro Level
     }
 
     update(player, map, inputState) {
         // Cooldown verringern
         if (this.cooldown > 0) this.cooldown--;
 
-        // Dash auslösen (nur wenn Leertaste gedrückt, kein Cooldown und nicht bereits im Dash)
-        // Wir nutzen hier testweise die Leertaste (spacePressed), die wir später im inputState brauchen
+        // Dash auslösen (nur wenn Leertaste gedrückt, kein Cooldown und nicht bereits im Dash
         if (inputState.spacePressed && this.cooldown <= 0) {
-            this.cooldown = 60; // 1 Sekunde bei 60 FPS
+            let calculatedCooldown = this.baseCooldown - (this.level - 1) * this.cooldownReductionPerLevel;
+            this.cooldown = Math.max(60, calculatedCooldown);
             this.isDashing = true;
 
             // Startposition merken
@@ -62,7 +64,7 @@ export class EquipmentDash extends Equipment {
         }
 
         // Nach einer kurzen Zeit den Dash-Status beenden
-        // (Einfachheitshalber hier sofort nach der Bewegung, 
+        // (Einfachheitshalber hier sofort nach der Bewegung,
         // für längere Dashes müsste man einen Counter einbauen)
         this.isDashing = false;
     }

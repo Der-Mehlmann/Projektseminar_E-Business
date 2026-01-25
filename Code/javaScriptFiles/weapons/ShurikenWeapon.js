@@ -1,11 +1,8 @@
 import { Weapon } from "./Weapon.js";
-import { getWeaponConfig } from "./weapon-config.js";
-
 //ShurikenWeapon: Orbiting Sterne
 export class ShurikenWeapon extends Weapon {
-    constructor(icon, description, level, name, context) {
-        const config = getWeaponConfig("shuriken");
-        super(icon, description, level, name, { ...context, config });
+    constructor(icon, description, level, name, shooter, mapWidth, mapHeight, gridWidth ,dmg ,cooldown ,range ,piercing ,maxLevel, startLevel, isSpecial, projectile, projectileConfig) {
+        super(icon, description, level, name, shooter, mapWidth, mapHeight, gridWidth ,dmg ,cooldown ,range ,piercing ,maxLevel, startLevel, isSpecial, projectile, projectileConfig);
 
         // Eigenes Array für Shuriken (nicht Grid!)
         this.shurikenProjectiles = [];
@@ -20,8 +17,8 @@ export class ShurikenWeapon extends Weapon {
     render(ctx, playerOne, performanceNow, enemies, map, gridWidth, enemyItemDrops, inputState = null) {
         // 1. Prüfen ob sich die Anzahl ändern muss (Extra Projectiles)
         const extra = this.shooter.extraProjectiles || 0;
-        const baseAmount = this.projectileAmount || this.config.projectileConfig.amount || 3;
-        const totalAmount = baseAmount + extra;
+        const baseAmount = this.projectileAmount || this.projectileConfig.amount || 3;
+        const totalAmount = Math.floor(baseAmount + extra);
 
         if (this.shurikenProjectiles.length !== totalAmount) {
             this.initializeShuriken();
@@ -41,26 +38,21 @@ export class ShurikenWeapon extends Weapon {
 
         // Fix: Extra Projectiles einrechnen
         const extra = this.shooter.extraProjectiles || 0;
-        const amount = (this.projectileAmount || this.config.projectileConfig.amount || 3) + extra;
+        const amount = Math.floor((this.projectileAmount || this.projectileConfig.amount || 3) + extra);
 
-        console.log(`ShurikenWeapon: Erstelle ${amount} Shuriken (Level ${this.level})`);
+        //console.log(`ShurikenWeapon: Erstelle ${amount} Shuriken (Level ${this.level})`);
 
         for (let i = 0; i < amount; i++) {
             const angle = (2 * Math.PI / amount) * i;
-            const OrbitingProjectile = this.config.projectile;
+            const OrbitingProjectile = this.projectile;
 
-            // Wichtig: config.shooter setzen für Orbit-Berechnung
-            const projectileConfig = {
-                ...this.config.projectileConfig,
-                shooter: this.shooter
-            };
 
             const projectile = new OrbitingProjectile(
                 this.shooter.globalEntityX,
                 this.shooter.globalEntityY,
                 { x: 1, y: 0 },
                 this.dmg,
-                projectileConfig,
+                this.projectileConfig,
                 {},
                 performance.now(),
                 angle
@@ -78,8 +70,22 @@ export class ShurikenWeapon extends Weapon {
         // Shuriken erstellen sich selbst im Constructor
     }
 
+      updateStats() {
+        if (this.level === this._currentStatsLevel) return;
+        this.dmg += 5
+        this.cooldown -= 10;
+        this.piercing += 0;     // +1 Piercing alle 2 Level
+        this.range += 50;         // +50 Range pro Level
+        this.projectileConfig.amount += 0.5;   // Fix: amount statt projectileAmount
+        this.projectileConfig.orbitRadius += 15;
+        this.projectileConfig.orbitSpeed += 0.2;
+        this._currentStatsLevel = this.level;
+    }
+
+
     renderProjectiles(ctx, playerOne, performanceNow, enemies, map, gridWidth, enemyItemDrops) {
         // Shuriken verwenden eigenes Array, nicht Grid
         this._renderArray(this.shurikenProjectiles, ctx, playerOne, performanceNow, enemies, map, gridWidth, enemyItemDrops);
     }
+
 }

@@ -1,15 +1,13 @@
 import { Weapon } from "./Weapon.js";
-import { getWeaponConfig } from "./weapon-config.js";
-import { Projectile } from "../projectiles/index.js";
+import { Projectile } from "../projectiles/Projectile.js";
 
 /**
  * ThunderstrikeWeapon: Blitz-Attacke
  * WARUM SPECIAL: Keine Projektile, nur Damage-Effekt + Custom shoot()
  */
 export class ThunderstrikeWeapon extends Weapon {
-    constructor(icon, description, level, name, context) {
-        const config = getWeaponConfig("thunderstrike");
-        super(icon, description, level, name, { ...context, config });
+    constructor(icon, description, level, name, shooter, mapWidth, mapHeight, gridWidth ,dmg ,cooldown ,range ,piercing ,maxLevel, startLevel, isSpecial, projectile, projectileConfig) {
+        super(icon, description, level, name, shooter, mapWidth, mapHeight, gridWidth ,dmg ,cooldown ,range ,piercing ,maxLevel, startLevel, isSpecial, projectile, projectileConfig);
         this.lastLightningTime = 0;
         this.lastLightningDirections = [];
     }
@@ -25,7 +23,7 @@ export class ThunderstrikeWeapon extends Weapon {
 
         // Fix: Extra Projectiles anwenden (Mehr Blitze)
         const extra = player.extraProjectiles || 0;
-        const lightningCount = (this.config.projectileConfig.lightningCount || 2) + extra;
+        const lightningCount = (this.projectileConfig.lightningCount || 2) + extra;
 
         // Fix: Damage Multiplier anwenden
         const effectiveDamage = this.dmg * (player.damageMultiplier || 1);
@@ -43,7 +41,7 @@ export class ThunderstrikeWeapon extends Weapon {
     }
 
     damageEnemiesInLine(enemies, lightningAngle, enemyItemDrops, damage) {
-        const lightningLength = this.config.projectileConfig.lightningLength;
+        const lightningLength = this.projectileConfig.lightningLength;
 
         this.forEachEnemy(enemies, (enemy, enemies, j) => {
             const dx = enemy.globalEntityX - this.shooter.globalEntityX;
@@ -59,10 +57,21 @@ export class ThunderstrikeWeapon extends Weapon {
             }
         });
     }
+       updateStats() {
+        if (this.level === this._currentStatsLevel) return;
+        this.dmg += 3;
+        this.cooldown -= 30;
+        this.piercing += 0;
+        this.range += 30;
+        // this.projectileConfig.amount += 0;
+        this.projectileConfig.lightningLength += 30;
+        this.projectileConfig.lightningCount += 0.5;
+        this._currentStatsLevel = this.level;
+    }
 
     renderEffects(ctx, playerOne, performanceNow) {
         const timeSinceLightning = performanceNow - this.lastLightningTime;
-        const lightningDuration = this.config.projectileConfig.lightningDuration;
+        const lightningDuration = this.projectileConfig.lightningDuration;
 
         if (timeSinceLightning < lightningDuration && this.lastLightningDirections.length > 0) {
             for (let dir of this.lastLightningDirections) {
@@ -72,9 +81,9 @@ export class ThunderstrikeWeapon extends Weapon {
     }
 
     drawLightning(ctx, playerOne, direction) {
-        const lightningLength = this.config.projectileConfig.lightningLength;
-        const screenX = this.shooter.globalEntityX - playerOne.globalEntityX + playerOne.canvasWidthMiddle;
-        const screenY = this.shooter.globalEntityY - playerOne.globalEntityY + playerOne.canvasWidthHeight;
+        const lightningLength = this.projectileConfig.lightningLength;
+        const screenX = (this.shooter.globalEntityX + this.shooter.hitbox.width / 2) - (playerOne.globalEntityX + playerOne.hitbox.width / 2) + playerOne.canvasWidthMiddle;
+        const screenY = (this.shooter.globalEntityY + this.shooter.hitbox.height / 2) - (playerOne.globalEntityY + playerOne.hitbox.height / 2) + playerOne.canvasWidthHeight;
         const endX = screenX + direction.x * lightningLength;
         const endY = screenY + direction.y * lightningLength;
 

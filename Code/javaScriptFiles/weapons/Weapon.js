@@ -1,39 +1,39 @@
 import { Item } from "../item.js";
 import { Enemy } from "../enemy.js";
-import { getWeaponConfig, createProjectileConfig, getWeaponStatsForLevel } from "./weapon-config.js";
 
 /**
  * Basis-Klasse für alle Waffen
  */
 export class Weapon extends Item {
-    constructor(icon, description, level, name, context = {}) {
+    constructor(icon, description, level, name, shooter, mapWidth, mapHeight, gridWidth ,dmg ,cooldown ,range ,piercing ,maxLevel, startlevel, isSpecial, projectile, projectileConfig){  // Für Testing: upgradebarprojectile,projectileConfig)
+
         super(icon, description, level, null);
 
-        const { shooter, mapWidth, mapHeight, gridWidth, config } = context;
 
-        this.config = config || {};
+        this.name = name;
         this.shooter = shooter;
         this.mapWidth = mapWidth;
         this.mapHeight = mapHeight;
         this.gridWidth = gridWidth;
-        this.level = level;
+        this.dmg = dmg;
+        this.cooldown = cooldown;
+        this.range = range;
+        this.piercing = piercing;
+        this.maxLevel = maxLevel;
+        this.startlevel = startlevel;
+        this.isSpecial = isSpecial;
+        this.projectile = projectile;
+        this.projectileConfig = projectileConfig;
+
 
         // Fallback: Wenn Name/Icon nicht übergeben wurden (Game-Mode), aus Config nehmen
-        if (!this.name) this.name = name || this.config.name || "Weapon";
-        if (!this.icon) this.icon = icon || this.config.icon;
-        if (!this.description && this.config.description) this.description = this.config.description;
+        if (!this.name) this.name = name || this.name || "Weapon";
+        if (!this.icon) this.icon = icon || this.icon;
+        if (!this.description && this.description) this.description = this.description;
 
         // Hole Level-basierte Stats
-        if (this.config.type) {
-            const levelStats = getWeaponStatsForLevel(this.config.type, level);
-            if (levelStats) {
-                this.dmg = levelStats.dmg;
-                this.cooldown = levelStats.cooldown;
-                this.range = levelStats.range;
-                this.piercing = levelStats.piercing;
-                this.projectileAmount = levelStats.projectileAmount;
-            }
-        }
+        this._currentStatsLevel = -1;
+        this.updateStats();
 
         // Speichern für Projektile
         this.projectiles = [];
@@ -130,7 +130,7 @@ export class Weapon extends Item {
             return player;
         } else {
             // Wenn useFacingDirection aktiviert → kein Ziel nötig (schießt in Blickrichtung)
-            if (this.config.useFacingDirection) {
+            if (this.useFacingDirection) {
                 return 'facing'; // Spezieller Marker für Blickrichtung
             }
             // Player schießt auf nächsten Gegner
@@ -188,7 +188,7 @@ export class Weapon extends Item {
      * Das meiste ist jetzt Config → keine Subklassen-Überladung nötig
      */
     createProjectiles(target, direction, currentTime, tilelength, gridWidth, player) {
-        const ProjectileClass = this.config.projectile;
+        const ProjectileClass = this.projectile;
 
         // Grid-Position für Player-Projektile
         const isPlayer = !(this.shooter instanceof Enemy);
@@ -220,7 +220,7 @@ export class Weapon extends Item {
     _instantiateProjectiles(ProjectileClass, direction, gridMapTile, currentTime, isPlayer) {
         // Erweiterte Config mit shooter für Boomerang etc.
         const extendedConfig = {
-            ...this.config.projectileConfig,
+            ...this.projectileConfig,
             shooter: this.shooter
         };
 
@@ -243,34 +243,19 @@ export class Weapon extends Item {
         return [projectile];
     }
 
-    /**
-     * TEMPLATE METHOD: Render-Logik für diese Waffe
-     * Wird von Player aufgerufen in render()
-     */
-    render(ctx, playerOne, performanceNow, enemies, map, gridWidth, enemyItemDrops, inputState = null) {
-        // Update Waffe (Cooldown, etc.)
-        this.update(performanceNow);
-        this.shoot(playerOne, performanceNow, enemies, map.tilelength, gridWidth, inputState, enemyItemDrops);
-        // Render Projektile
-        this.renderProjectiles(ctx, playerOne, performanceNow, enemies, map, gridWidth, enemyItemDrops);
 
-        // Render spezielle Effekte (überschreiben in Subklassen)
-        this.renderEffects(ctx, playerOne, performanceNow);
-    }
 
     /**
      * Update Waffen-State (z.B. Cooldown)
      */
-    update(currentTime) {
-        // Standard: Nichts zu tun
-        // Subklassen können überschreiben
+    update() {
+        // Stats nur bei LevelUp aktualisieren, nicht jeden Frame!
     }
 
-    /**
-     * RENDERING
-     * VEREINFACHT: Keine 3-fach if-Branches mehr!
-     * Projectiles kümmern sich selbst um Update/Draw
-     */
+    updateStats() {
+        // Basis-Implementierung
+    }
+
     renderProjectiles(ctx, playerOne, performanceNow, enemies, map, gridWidth, enemyItemDrops) {
         // Unterscheide nur: Grid vs Array (bestimmt durch Shooter)
         if (this.shooter instanceof Enemy) {
@@ -320,16 +305,7 @@ export class Weapon extends Item {
      * Erhöht das Waffenlevel und aktualisiert die Stats
      */
     lvlUp() {
-        if (this.level < (this.config.maxLevel || 20)) {
-            this.level++;
-            // Hole neue Level-Stats
-            const levelStats = getWeaponStatsForLevel(this.config.type, this.level);
-            this.dmg = levelStats.dmg;
-            this.cooldown = levelStats.cooldown;
-            this.range = levelStats.range;
-            this.piercing = levelStats.piercing;
-            this.projectileAmount = levelStats.projectileAmount;
-        }
+        super.lvlUp();
     }
 
     /**
@@ -343,5 +319,20 @@ export class Weapon extends Item {
                 }
             }
         }
+    }
+
+    /**
+     * TEMPLATE METHOD: Render-Logik für diese Waffe
+     * Wird von Player aufgerufen in render()
+     */
+    render(ctx, playerOne, performanceNow, enemies, map, gridWidth, enemyItemDrops, inputState = null) {
+        // Update Waffe (Cooldown, etc.)
+        this.update(performanceNow);
+        this.shoot(playerOne, performanceNow, enemies, map.tilelength, gridWidth, inputState, enemyItemDrops);
+        // Render Projektile
+        this.renderProjectiles(ctx, playerOne, performanceNow, enemies, map, gridWidth, enemyItemDrops);
+
+        // Render spezielle Effekte (überschreiben in Subklassen)
+        this.renderEffects(ctx, playerOne, performanceNow);
     }
 }

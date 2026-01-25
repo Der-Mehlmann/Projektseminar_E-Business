@@ -5,20 +5,20 @@ export class Map {
         this.mapHeightTile = mapData.height
         this.tilelength = mapData.tilewidth
         this.miniMapWidth = 200
-        this.miniMapHeight = 150 
-        this.miniMapX = 10           
-        this.miniMapY = 60 
+        this.miniMapHeight = 150
+        this.miniMapX = 10
+        this.miniMapY = 60
         this.mapImage = new Image()
         this.miniMapLoaded = false
         this.mapImage.onload = () => {
             this.miniMapTilePixelSizeX = this.mapImage.width / this.mapWidthTile
             this.miniMapTilePixelSizeY = this.mapImage.height / this.mapHeightTile
             this.mapCutHeight = this.miniMapTileView * this.miniMapTilePixelSizeY
-            this.mapCutWidth = this.miniMapTileView * this.miniMapTilePixelSizeX 
+            this.mapCutWidth = this.miniMapTileView * this.miniMapTilePixelSizeX
             this.miniMapLoaded = true
         }
         this.mapDataTilesets = mapData.tilesets.length
-        this.miniMapTileView = 75 
+        this.miniMapTileView = 75
         this.FOVwidth = FOVwidth
         this.FOVheight = FOVheight
         this.ctx = ctx
@@ -34,13 +34,13 @@ export class Map {
         }
           for  (let i = 0; i < this.mapDataTilesets; i++) {
             this.tilesetImage[i].onload = () => {
-            this.tilesSetsLoaded[i] = true;            
-            this.tilesPerRow[i] = Math.round(this.tilesetImage[i].width / this.tilelength)            
+            this.tilesSetsLoaded[i] = true;
+            this.tilesPerRow[i] = Math.round(this.tilesetImage[i].width / this.tilelength)
             }
 
             this.tilesetImage[i].src = mapData.tilesets[i].image
             }
-        
+
         this.loadTileData(mapData)
         this.mapImage.src = png
     }
@@ -151,7 +151,7 @@ export class Map {
                     linkToTileSet = this.getTilesetPathByNr(hoehe0[this.getTileNr(i, j)])
                     tilesPerRow = Math.round(linkToTileSet.data.imagewidth / this.tilelength)
                     tileSetNr = hoehe0[this.getTileNr(i, j)] - linkToTileSet.data.firstgid
-                }       
+                }
                 if (wall != null && wall[this.getTileNr(i, j)] > 0) {
                     walkable = false
                     linkToTileSet = this.getTilesetPathByNr(wall[this.getTileNr(i, j)])
@@ -177,7 +177,7 @@ export class Map {
                 }
                 //console.log(linkToTileSetDesign)
                 //console.log(tilesPerRow[1])
-                
+
                 this.tileData[i][j] = {
                     walkable: walkable,
                     height: tileHeight,
@@ -196,10 +196,11 @@ export class Map {
                 }
             }
         }
+        console.log(this.tileData[0][10])
         this.tileDataLoaded = true
     }
 
-    
+
     getTilesetPathByNr(tileNr) {
         if (tileNr <= 0) return null;
         for (let i = 0; i < this.mapDataTilesets-1 ; i++) {
@@ -215,7 +216,7 @@ export class Map {
     }
 
     getTileNr(row, column) {
-        
+
         return row * this.mapWidthTile + column /* jedes Tile/Kachel hat eine eigene Nr  nach dem Prinzip   1  2   3   4
                                                                                                             5  6   7   8
                                                                                                             9  10  11  12  */
@@ -234,7 +235,7 @@ export class Map {
         i = Math.floor(i);      //subPixelRendering, ohne das gibt es weiße Linien auf dem Canvas
         j = Math.floor(j);
         if (!(this.isTileOutOfBorder(tileRowWalker, tileColumnWalker))) {
-            let leftOffset = this.tilelength - this.offsetToBorder(leftBorder) 
+            let leftOffset = this.tilelength - this.offsetToBorder(leftBorder)
             let topOffset = this.tilelength - this.offsetToBorder(topBorder)                                //Wie viel von dem TileSetTile gezeichnet werden muss, falls oben am Bildrand nur die hälft z.B. gezeichnet wurde
             let tile = this.tileData[tileRowWalker][tileColumnWalker]
             this.ctx.drawImage(this.tilesetImage[tile.linkToTileSet.index],                                      //Datei aus der das Tile stammt
@@ -262,8 +263,8 @@ export class Map {
 
     draw(player) {
         if (this.miniMapLoaded && this.tilesSetsLoaded.every(v => v === true) && this.tileDataLoaded) {
-            let leftBorder = Math.floor(player.globalEntityX - this.FOVwidth / 2)//Math.floor verhindern subPixelRendering --> flackern
-            let topBorder = Math.floor(player.globalEntityY - this.FOVheight / 2)
+            let leftBorder = Math.floor(player.globalEntityX + (player.hitbox.width / 2) - this.FOVwidth / 2)//Math.floor verhindern subPixelRendering --> flackern
+            let topBorder = Math.floor(player.globalEntityY + (player.hitbox.height / 2) - this.FOVheight / 2)
             let tileRow = Math.floor(topBorder / this.tilelength)
             let tileRowWalker = tileRow
             let tileColumn = Math.floor(leftBorder / this.tilelength)
@@ -307,7 +308,7 @@ export class Map {
         startTileY = Math.max(0, Math.min(startTileY, this.mapHeightTile - this.miniMapTileView))
         startTileX = Math.floor(startTileX)
         startTileY = Math.floor(startTileY)
-       
+
         this.ctx.drawImage( // MiniMap-Ausschnitt zeichnen
             this.mapImage,      //Bild
             startTileX * this.miniMapTilePixelSizeX, startTileY * this.miniMapTilePixelSizeY,     // startkoords im Bild
