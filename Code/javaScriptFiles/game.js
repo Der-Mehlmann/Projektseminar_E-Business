@@ -178,10 +178,6 @@ export class game {
         document.getElementById("settingsForm").addEventListener("submit", (e) => {
             e.preventDefault();
             // Save logic here
-
-            this.soundEffects = document.getElementById("effectsOn").checked
-            this.music = document.getElementById("musicOn").checked
-
             this.soundEffectsVol = parseFloat(document.getElementById("soundEffectsVol").value)
             this.musicVol = parseFloat(document.getElementById("musicVol").value)
 
@@ -401,6 +397,45 @@ export class game {
         document.getElementById("pauseScreen").style.display = "flex";
 
         Sounds.musikSound.pause()
+    }
+
+    playerStats() {
+        document.getElementById("playerStatsScreen").style.display = "flex";
+        document.getElementById("playerStatsImg").src = this.playerPngPath;
+
+        //Equipments
+        if (this.PlayerOne.equipmentSlots[0]) document.getElementById("appliedEquipment1").innerHTML = this.PlayerOne.equipmentSlots[0].name
+        if (this.PlayerOne.equipmentSlots[0]) document.getElementById("applied1").innerHTML = "– Level: " + this.PlayerOne.equipmentSlots[0].level
+
+        if (this.PlayerOne.equipmentSlots[1]) document.getElementById("appliedEquipment2").innerHTML = this.PlayerOne.equipmentSlots[1].name
+        if (this.PlayerOne.equipmentSlots[1]) document.getElementById("applied2").innerHTML = "– Level: " + this.PlayerOne.equipmentSlots[1].level
+
+        if (this.PlayerOne.equipmentSlots[2]) document.getElementById("appliedEquipment3").innerHTML = this.PlayerOne.equipmentSlots[2].name
+        if (this.PlayerOne.equipmentSlots[2]) document.getElementById("applied3").innerHTML = "– Level: " + this.PlayerOne.equipmentSlots[2].level
+
+        if (this.PlayerOne.equipmentSlots[3]) document.getElementById("appliedEquipment4").innerHTML = this.PlayerOne.equipmentSlots[3].name
+        if (this.PlayerOne.equipmentSlots[3]) document.getElementById("applied4").innerHTML = "– Level: " + this.PlayerOne.equipmentSlots[3].level
+
+        //Weapons
+        if (this.PlayerOne.weaponSlots[0]) document.getElementById("PsWeapon1").src = this.PlayerOne.weaponSlots[0].icon;
+        if (this.PlayerOne.weaponSlots[0]) document.getElementById("PsWeapon1N").innerHTML = this.PlayerOne.weaponSlots[0].name;
+        if (this.PlayerOne.weaponSlots[0]) document.getElementById("PsWeapon1L").innerHTML = "Level: " + this.PlayerOne.weaponSlots[0].level;
+
+        if (this.PlayerOne.weaponSlots[1]) document.getElementById("PsWeapon2").src = this.PlayerOne.weaponSlots[1].icon;
+        if (this.PlayerOne.weaponSlots[1]) document.getElementById("PsWeapon2N").innerHTML = this.PlayerOne.weaponSlots[1].name;
+        if (this.PlayerOne.weaponSlots[1]) document.getElementById("PsWeapon2L").innerHTML = "Level: " + this.PlayerOne.weaponSlots[1].level;
+
+        if (this.PlayerOne.weaponSlots[2]) document.getElementById("PsWeapon3").src = this.PlayerOne.weaponSlots[2].icon;
+        if (this.PlayerOne.weaponSlots[2]) document.getElementById("PsWeapon3N").innerHTML = this.PlayerOne.weaponSlots[2].name;
+        if (this.PlayerOne.weaponSlots[2]) document.getElementById("PsWeapon3L").innerHTML = "Level: " + this.PlayerOne.weaponSlots[3].level;
+
+        if (this.PlayerOne.weaponSlots[3]) document.getElementById("PsWeapon4").src = this.PlayerOne.weaponSlots[3].icon;
+        if (this.PlayerOne.weaponSlots[3]) document.getElementById("PsWeapon4N").innerHTML = this.PlayerOne.weaponSlots[3].name;
+        if (this.PlayerOne.weaponSlots[3]) document.getElementById("PsWeapon4L").innerHTML = "Level: " + this.PlayerOne.weaponSlots[3].level;
+    }
+
+    statsScreenHide() {
+        document.getElementById("playerStatsScreen").style.display = "none";
     }
 
     resumeGame() {
@@ -734,8 +769,6 @@ export class game {
             spacePressed: this.spacePressed
         }, performance.now(), this.enemies, this.gridWidth)
 
-
-        //this.killCount += kills
         // Gegner bewegen, zeichnen und bei Collision entfernen
         for (let row = 0; row <= Math.floor(this.mapData.height / (this.gridWidth)); row++) {
             for (let column = 0; column <= Math.floor(this.mapData.width / (this.gridWidth)); column++) {
@@ -751,6 +784,7 @@ export class game {
 
         this.hudHealthProgress.max = this.PlayerOne.maxHp
         this.hudHealthProgress.value = this.PlayerOne.hp
+        this.hudXpProgress.max = this.PlayerOne.xpForNextLevel
         document.getElementById("hudXP").innerHTML = this.PlayerOne.xp
     }
 }

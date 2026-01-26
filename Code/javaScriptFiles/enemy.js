@@ -136,6 +136,7 @@ export class Enemy extends MovingEntity {
         enemies[this.gridMapTile.row][this.gridMapTile.column].within.splice(positionWithin, 1)
     }
 
+        Game.killCount++
         localStorage.setItem("gameKills", (parseInt(localStorage.getItem("gameKills") || "0") + 1).toString());
 
         if (dropItems) {

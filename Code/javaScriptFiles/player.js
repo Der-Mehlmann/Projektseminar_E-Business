@@ -131,8 +131,7 @@ export class Player extends MovingEntity {
         this.LvlUpFactory.lvlUpRoll(this.equipmentSlots, this.weaponSlots)
         Game.lvlUPshow()
         this.level++;
-        this.xpForNextLevel = this.level * 10; //warum hier? muss das nicht in lvlup funktion (achtet bitte auf eure leerzeichen)
-        document.getElementById("hudXpProgress").style.max = this.xpForNextLevel;
+        this.xpForNextLevel = this.level * 10;
     }
 
     die() {

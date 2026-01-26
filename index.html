@@ -58,9 +58,21 @@
     </div>
 
     <div class="creditsTopLeft">
-        <a href="javascript:void(0);" onclick="Game.statsShow()" onmousedown="Game.playButtonSound()">
-            <img alt="GitHub" src="./Graphics/stats.svg">
-        </a>
+        <button class="btn" onclick="Game.statsShow()" onmousedown="Game.playButtonSound()">
+            <img alt="Stats" src="./Graphics/stats.svg">
+        </button>
+    </div>
+
+    <div class="credits" id="linksCredits">
+        <button class="btn" onclick="window.open('https://github.com/Der-Mehlmann/Projektseminar_E-Business', '_blank')"
+                onmousedown="Game.playButtonSound()">
+            <img alt="GitHub" src="./Graphics/GitHub_Invertocat_White.svg">
+        </button>
+        <button class="btn"
+                onclick="window.open('https://github.com/Der-Mehlmann/Projektseminar_E-Business/wiki', '_blank')"
+                onmousedown="Game.playButtonSound()">
+            <img alt="Wiki" src="./Graphics/book.svg">
+        </button>
     </div>
 </section>
 
@@ -78,53 +90,52 @@
 <section class="screen" id="settingsScreen">
     <h2 class="screenTitle">Settings</h2>
 
-    <form id="settingsForm">
-        <div class="panel">
-            <div class="settings" id="soundSettings">
-                <input checked id="effectsOn" name="effectsOn" type="checkbox" value="true">
-                <label for="effectsOn">Sound</label>
+    <form id="settingsForm" style="color: yellow">
+        <div class="panel" style="display: flex; flex-direction: column; gap: 20px;">
+            <div style="display: flex; flex-direction: row; gap: 10px;">
+                <div class="settings" id="soundSettings">
+                    <input id="soundEffectsVol" max="1.0" min="0.0" name="soundEffectsVol" step="0.1" type="range"
+                           value="1.0">
+                    <label for="soundEffectsVol">Sound Effects Volume</label>
 
-                <input checked id="musicOn" name="musicOn" type="checkbox" value="true">
-                <label for="musicOn">Music</label>
+                    <input id="musicVol" max="1.0" min="0.0" name="musicVol" step="0.1" type="range" value="1.0">
+                    <label for="musicVol">Music Volume</label>
+                </div>
 
-                <input id="soundEffectsVol" max="1.0" min="0.0" name="soundEffectsVol" step="0.1" type="range"
-                       value="1.0">
-                <label for="soundEffectsVol">Sound Effects Volume</label>
+                <div class="settings" id="gameSettings">
+                    <input id="testHealth" max="9999" min="1" name="testHealth" type="number" value="100">
+                    <label for="testHealth">Set your Health</label>
 
-                <input id="musicVol" max="1.0" min="0.0" name="musicVol" step="0.1" type="range" value="1.0">
-                <label for="musicVol">Music Volume</label>
+                    <input id="testMaxHealth" max="9999" min="1" name="testMaxHealth" type="number" value="100">
+                    <label for="testMaxHealth">Set your max. Health</label>
+
+                    <input id="testXP" max="9999" min="0" name="testXP" type="number" value="0">
+                    <label for="testXP">Set your XP</label>
+                </div>
+
+                <div class="settings">
+                    <input checked id="testShoot" name="testShoot" type="checkbox" value="true">
+                    <label for="testShoot">Enable Shooting</label>
+
+                    <input id="testDie" name="testDie" type="checkbox" value="false">
+                    <label for="testDie">Player can die?</label>
+
+                    <input id="activateDash" name="activateDash" type="checkbox" value="false">
+                    <label for="activateDash">Player can Dash?</label>
+                </div>
             </div>
 
-            <div class="settings" id="gameSettings">
-                <input id="testHealth" max="9999" min="1" name="testHealth" type="number" value="100">
-                <label for="testHealth">Set your Health</label>
+            <div class="menu" style="display: flex; flex-direction: row; gap: 10px;">
+                <div class="menu">
+                    <button class="btn" id="startMenuButton" onclick="Game.home()" onmousedown="Game.playButtonSound()">
+                        Back
+                    </button>
+                </div>
 
-                <input id="testMaxHealth" max="9999" min="1" name="testMaxHealth" type="number" value="100">
-                <label for="testMaxHealth">Set your max. Health</label>
-
-                <input id="testXP" max="9999" min="0" name="testXP" type="number" value="0">
-                <label for="testXP">Set your XP</label>
+                <input class="btn" onmousedown="Game.playButtonSound()" type="submit" value="Save"/>
             </div>
 
-            <div class="settings">
-                <input checked id="testShoot" name="testShoot" type="checkbox" value="true">
-                <label for="testShoot">Enable Shooting</label>
 
-                <input checked id="testDie" name="testDie" type="checkbox" value="true">
-                <label for="testDie">Player can die?</label>
-
-                <input id="activateDash" name="activateDash" type="checkbox" value="false">
-                <label for="activateDash">Player can Dash?</label>
-
-            </div>
-
-            <div class="menu">
-                <button class="btn" id="startMenuButton" onclick="Game.home()" onmousedown="Game.playButtonSound()">
-                    Back
-                </button>
-            </div>
-
-            <input class="btn" onmousedown="Game.playButtonSound()" type="submit" value="Save"/>
         </div>
     </form>
 </section>
@@ -236,7 +247,106 @@
                 3
             </button>
         </div>
+
     </div>
+    <div class="menu" style="margin-top: 20px;">
+        <button class="btn" onclick="Game.playerStats()" onmousedown="Game.playButtonSound()">Show applied</button>
+    </div>
+</section>
+
+<section class="screen overlay-dark" id="playerStatsScreen">
+    <div style="display: flex; gap: 20px; flex-direction: row; align-items: flex-start; justify-content: center; margin-bottom: 20px; align-content: center;">
+        <button class="btn" onclick="Game.statsScreenHide()" onmousedown="Game.playButtonSound()"
+                style="width: auto; padding-top: 5px; padding-bottom: 5px">
+            &lt;
+        </button>
+        <h1 class="screenTitle" style="margin: 0px">
+            Currently Applied
+        </h1>
+    </div>
+
+
+    <div class="playerStats">
+        <div class="playerEquipments">
+            <div class="playerStatsEqui">
+                <div class="playerStatsEquiLeft">
+                    <p><span id="appliedEquipment1">Nothing equipped</span> <span id="applied1"></span></p>
+                    <div>
+                        <img alt="statsLeft" src="./Graphics/statsleft.svg" width="300">
+                    </div>
+                </div>
+                <div>
+                    <p><span id="appliedEquipment2">Nothing equipped</span> <span id="applied2"></span></p>
+                    <div>
+                        <img alt="statsLeft" height="auto" src="./Graphics/statsleft.svg" width="300">
+                    </div>
+                </div>
+            </div>
+            <img alt="Player" class="playerStatsImg" id="playerStatsImg" src="">
+            <div class="playerStatsEqui">
+                <div class="playerStatsEquiRight">
+                    <p><span id="appliedEquipment3">Nothing equipped</span> <span id="applied3"></span></p>
+                    <div>
+                        <img alt="statsLeft" src="./Graphics/statsright.svg" width="300">
+                    </div>
+                </div>
+                <div class="playerStatsEquiRight">
+                    <p><span id="appliedEquipment4">Nothing equipped</span> <span id="applied4"></span></p>
+                    <div>
+                        <img alt="statsLeft" src="./Graphics/statsright.svg" width="300">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="playerWeapons">
+            <div class="weaponsSection">
+                <div class="lvlUpImg">
+                    <svg height="260" width="260" xmlns="http://www.w3.org/2000/svg">
+                        <rect fill="yellow" height="260" rx="20" ry="20" width="260" x="0" y="0"/>
+                        //x & y == offset; rx & ry == border radius
+                    </svg>
+                    <img alt="PsWeapon1" id="PsWeapon1" src="./Graphics/equipmentIcons/PNG/21.png">
+                </div>
+                <p id="PsWeapon1N">Nothing equipped</p>
+                <p id="PsWeapon1L">Has no Level</p>
+            </div>
+            <div class="weaponsSection">
+                <div class="lvlUpImg">
+                    <svg height="260" width="260" xmlns="http://www.w3.org/2000/svg">
+                        <rect fill="yellow" height="260" rx="20" ry="20" width="260" x="0" y="0"/>
+                        //x & y == offset; rx & ry == border radius
+                    </svg>
+                    <img alt="PsWeapon2" id="PsWeapon2" src="./Graphics/equipmentIcons/PNG/21.png">
+                </div>
+                <p id="PsWeapon2N">Nothing equipped</p>
+                <p id="PsWeapon2L">Has no Level</p>
+            </div>
+            <div class="weaponsSection">
+                <div class="lvlUpImg">
+                    <svg height="260" width="260" xmlns="http://www.w3.org/2000/svg">
+                        <rect fill="yellow" height="260" rx="20" ry="20" width="260" x="0" y="0"/>
+                        //x & y == offset; rx & ry == border radius
+                    </svg>
+                    <img alt="PsWeapon3" id="PsWeapon3" src="./Graphics/equipmentIcons/PNG/21.png">
+                </div>
+                <p id="PsWeapon3N">Nothing equipped</p>
+                <p id="PsWeapon3L">Has no Level</p>
+            </div>
+            <div class="weaponsSection">
+                <div class="lvlUpImg">
+                    <svg height="260" width="260" xmlns="http://www.w3.org/2000/svg">
+                        <rect fill="yellow" height="260" rx="20" ry="20" width="260" x="0" y="0"/>
+                        //x & y == offset; rx & ry == border radius
+                    </svg>
+                    <img alt="PsWeapon4" id="PsWeapon4" src="./Graphics/equipmentIcons/PNG/21.png">
+                </div>
+                <p id="PsWeapon4N">Nothing equipped</p>
+                <p id="PsWeapon4L">Has no Level</p>
+            </div>
+        </div>
+    </div>
+
 
 </section>
 

@@ -3,10 +3,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Jersey+10&family=Pixelify+Sans:wght@400..700&display=swap');
 
 :root {
-	--black: #000000;
+	--black: #0D0000;
 	--brown: #a52a2a;
 	--red: #ff0000;
-	--white: #ffffff;
+	--white: #F2F2F2;
 	--yellow: #ffff00;
 	--dark-brown: #5c3317;
 	--font-primary: 'Jersey 10', sans-serif;
@@ -108,6 +108,25 @@ h1 {
 	gap: 15px;
 	max-width: 90%;
 	width: 350px;
+}
+
+.credits {
+    align-items: center;
+    bottom: 40px;
+    display: flex;
+    flex-direction: row;
+
+    gap: 30px;
+    position: fixed;
+    right: 100px;
+    z-index: 1000;
+
+}
+
+.credits img {
+	display: block;
+	height: auto;
+	width: 50px;
 }
 
 .creditsTopLeft {
@@ -376,3 +395,79 @@ progress {
 	width: 60%;
 	z-index: 10;
 }
+
+/* Stats Panel */
+.playerStats {
+	align-content: center;
+	align-items: center;
+	display: flex;
+	flex-direction: column;
+	gap: 50px;
+	justify-content: center;
+}
+
+.playerStats p {
+	color: red;
+	font-size: 28px;
+	margin: 0;
+}
+
+.playerEquipments {
+	align-items: center;
+	display: flex;
+	flex-direction: row;
+	gap: 50px;
+	justify-content: center;
+}
+
+.playerStatsImg {
+	align-items: center;
+	display: flex;
+	height: auto;
+	margin-top: 50px;
+	object-fit: contain;
+	width: 30%;
+}
+
+.playerStatsEqui {
+	display: flex;
+	flex-direction: column;
+	gap: 50px;
+}
+
+.playerStatsEquiLeft {
+	display: flex;
+	flex-direction: column;
+}
+
+.playerStatsEquiRight {
+	display: flex;
+	flex-direction: column;
+}
+
+.playerStatsEquiRight p {
+	text-align: right;
+}
+
+.playerWeapons {
+	display: flex;
+	flex-direction: row;
+	gap: 50px;
+}
+
+.weaponsSection {
+	align-items: center;
+	border: 4px solid var(--yellow);
+	box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.6);
+	display: flex;
+	flex-direction: column;
+	font-size: 32px;
+	gap: 15px;
+	height: auto;
+	justify-content: center;
+	margin: 0px;
+	padding: 40px;
+	text-align: center;
+	width: auto;
+}
+
