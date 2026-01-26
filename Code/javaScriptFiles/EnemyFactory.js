@@ -66,19 +66,29 @@ export class EnemyFactory{
                 }
                 let gridMapTile = {column : Math.floor(x / (gridWidth*tilewidth)), row : Math.floor(y / (gridWidth*tilewidth))}
                 let enemy = EnemyFactory.createRandomEnemy(x, y, gridMapTile, mapWidth, mapHeight, gridWidth, enemyLvl)
-                for (let i =0; i<=5; i++){
-                    if(!enemy.checkSpawnCollision(enemiesArray, enemy.gridMapTile) && enemy.spawnCheck(MapOne, tilewidth, tilewidth)){
-                        //console.log(enemy.spawnCheckWithEnemy(enemiesArray, gridMapTile)+ " " +enemy.spawnCheck(MapOne, enemy.globalEntityX, enemy.globalEntityY, tilewidth, tilewidth))
-                        enemiesArray[gridMapTile.row][gridMapTile.column].within.push(enemy);
-                        
-                        break
-                    }else {
-                        enemy.globalEntityX += tilewidth * dx
-                        enemy.globalEntityY += tilewidth * dy
-                        enemy.gridMapTile = {column : Math.floor(x / (gridWidth*tilewidth)), row : Math.floor(y / (gridWidth*tilewidth))}
-                    }
-                }
-            }
+                for (let tries = 0; tries <= 5; tries++) {
+
+         // ✅ NEU: Tile immer aus aktueller Enemy-Position berechnen
+        const currentTile = {
+        column: Math.floor(enemy.globalEntityX / (gridWidth * tilewidth)),
+        row: Math.floor(enemy.globalEntityY / (gridWidth * tilewidth)),
+        }
+        enemy.gridMapTile = currentTile
+
+        if (
+        !enemy.checkSpawnCollision(enemiesArray, enemy.gridMapTile) &&
+        enemy.spawnCheck(MapOne, tilewidth, tilewidth)
+        ) {
+        // ✅ NEU: in das aktuelle Tile pushen (nicht ins ursprüngliche gridMapTile)
+        enemiesArray[currentTile.row][currentTile.column].within.push(enemy)
+        break
+        } else {
+        enemy.globalEntityX += tilewidth * dx
+        enemy.globalEntityY += tilewidth * dy
+        }
+        }
+
+        }
         }
     }
     static createRandomEnemy(globalEntityX, globalEntityY, gridMapTile, mapWidth, mapHeight, gridWidth, enemyLvl) {  // muss statisch sein, da sie vor der Instanziierung eines Enemys aufgerufen wird

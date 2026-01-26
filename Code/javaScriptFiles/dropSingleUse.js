@@ -208,6 +208,7 @@ class ShockwaveNukeEffect extends StaticEntity {
     this.radius = 0
     this.speed = 20
     this.maxRadius = 2500
+     this.soundPlayed = false
   }
 
   render(ctx, player, enemyItemDrops, position) {
@@ -230,10 +231,11 @@ class ShockwaveNukeEffect extends StaticEntity {
     ctx.lineWidth = 2
     ctx.stroke()
 
-      if (window.Game.soundEffects) {
-          window.Sounds.nukeSound.play()
-      }
-
+     // ✅ Änderung: Sound nur einmal
+  if (!this.soundPlayed && window.Game.soundEffects) {
+    window.Sounds.nukeSound.play()
+    this.soundPlayed = true
+  }
 
      // Alle Gegner durchgehen und prüfen: Ist ein Gegner innerhalb des aktuellen Radius, wird er sofort getötet.
 
@@ -252,7 +254,7 @@ class ShockwaveNukeEffect extends StaticEntity {
 
           // Wenn die Shockwave den Gegner erreicht -> tot
           if (dist <= this.radius && !enemy.elite) {
-          enemy.takeDmg(999999, enemies, i, player.enemyItemDrops)
+          enemy.die(enemies, i, player.enemyItemDrops, { dropItems: false }, list)
           }
         }
       }

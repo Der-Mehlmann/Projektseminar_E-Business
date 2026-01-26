@@ -115,10 +115,26 @@ export class Enemy extends MovingEntity {
     }
 
 
-    die(enemies, positionWithin, enemyItemDrops, dropSettings = {}) {
+    die(enemies, positionWithin, enemyItemDrops, dropSettings = {},  listOverride = null) {
         const {dropItems = true} = dropSettings
+         // Änderung: optional listOverride (für Nuke). Sonst Original-Verhalten.
+     if (Array.isArray(listOverride)) {
+    // Änderung: robust entfernen (indexOf statt blind positionWithin)
+    const idx = listOverride.indexOf(this)
+    if (idx !== -1) listOverride.splice(idx, 1)
+    else if (
+      positionWithin != null &&
+      positionWithin >= 0 &&
+      positionWithin < listOverride.length &&
+      listOverride[positionWithin] === this
+    ) {
+      listOverride.splice(positionWithin, 1)
+    }
+    } else {
+    // Original
         //console.log("Enemy ist gestorben! XP gedroppt:", this.xpDrop);
         enemies[this.gridMapTile.row][this.gridMapTile.column].within.splice(positionWithin, 1)
+    }
 
         localStorage.setItem("gameKills", (parseInt(localStorage.getItem("gameKills") || "0") + 1).toString());
 
