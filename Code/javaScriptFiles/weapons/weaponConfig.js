@@ -45,7 +45,7 @@ export class WeaponConfig {
             case "Bow":
                 return new BowWeapon("./Graphics/equipmentIcons/PNG/2.png", "Fast piercing arrows", level, "Bow", shooter, mapWidth, mapHeight, gridWidth, 40, 875, 1000, 0, 20, 1,  // Spieler startet mit Bow Level 1
                     false, BasicProjectile, {
-                        speed: 6, width: 40, height: 10, size: 10, // Fallback / hitbox adjustments might use this if logic changed, but basically ignored for width/height now if above are present
+                        speed: 6, width: 80, height: 20, size: 50, // Fallback / hitbox adjustments might use this if logic changed, but basically ignored for width/height now if above are present
                         image: "./Graphics/projectiles/pfleil.png", duration: 3000, amount: 1  // Basis-Anzahl Projektile
                     });
             case "Knife":
@@ -170,8 +170,8 @@ export class WeaponConfig {
             case "BasicEnemy":
                 return new Weapon(null, "Enemy Arrow", level, "EnemyArrow", shooter, mapWidth, mapHeight, gridWidth, 15, 1500, 600, 0, 1, 1, false, BasicProjectile, {
                     speed: 3,
-                    width: 30,
-                    height: 8,
+                    width: 60,
+                    height: 16,
                     size: 30,
                     duration: 2000,
                     isEnemy: true,
