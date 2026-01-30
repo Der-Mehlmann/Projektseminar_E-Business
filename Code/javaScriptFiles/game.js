@@ -321,7 +321,7 @@ export class game {
                     this.enemies[row][column] = {within: []}
                 }
             }
-            this.renderInterval = setInterval(() => this.render(), 3);// ca. 30 FPS
+            this.renderInterval = setInterval(() => this.render(), 5);
             this.startEnemySpawning();
             this.resetTimer()
             this.startGameTimer()
