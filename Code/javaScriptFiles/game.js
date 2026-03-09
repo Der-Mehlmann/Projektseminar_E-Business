@@ -83,8 +83,8 @@ export class game {
 
     soundEffects = true
     music = true
-    soundEffectsVol = parseFloat(localStorage.getItem("soundEffectsVol") || "1.0");
-    musicVol = parseFloat(localStorage.getItem("musicVol") || "1.0");
+    soundEffectsVol = parseFloat(localStorage.getItem("VampirioSoundEffectsVol") || "1.0");
+    musicVol = parseFloat(localStorage.getItem("VampirioMusicVol") || "1.0");
 
     //Tests
     testShoot = true
@@ -213,8 +213,8 @@ export class game {
             this.soundEffectsVol = parseFloat(document.getElementById("soundEffectsVol").value)
             this.musicVol = parseFloat(document.getElementById("musicVol").value)
 
-            localStorage.setItem("soundEffectsVol", this.soundEffectsVol.toString())
-            localStorage.setItem("musicVol", this.musicVol.toString())
+            localStorage.setItem("VampirioSoundEffectsVol", this.soundEffectsVol.toString())
+            localStorage.setItem("VampirioMusicVol", this.musicVol.toString())
 
             this.testShoot = document.getElementById("testShoot").checked
             this.testDie = document.getElementById("testDie").checked
@@ -237,8 +237,8 @@ export class game {
             this.soundEffectsVol = parseFloat(document.getElementById("soundEffectsVolInGame").value) // ID muss im HTML angepasst werden (siehe unten) oder eindeutig sein
             this.musicVol = parseFloat(document.getElementById("musicVolInGame").value) // ID muss im HTML angepasst werden
 
-            localStorage.setItem("soundEffectsVol", this.soundEffectsVol.toString())
-            localStorage.setItem("musicVol", this.musicVol.toString())
+            localStorage.setItem("VampirioSoundEffectsVol", this.soundEffectsVol.toString())
+            localStorage.setItem("VampirioMusicVol", this.musicVol.toString())
 
             this.Sounds()
 
@@ -254,11 +254,11 @@ export class game {
     }
 
     updateGameTime() {
-        const totalMinutes = Math.floor((parseInt(localStorage.getItem("totalGameTime"))) / 60)
-        const totalSeconds = (parseInt(localStorage.getItem("totalGameTime"))) % 60
+        const totalMinutes = Math.floor((parseInt(localStorage.getItem("VampirioTotalGameTime"))) / 60)
+        const totalSeconds = (parseInt(localStorage.getItem("VampirioTotalGameTime"))) % 60
         // Format mm:ss
-        localStorage.setItem("gameTime", `${totalMinutes.toString().padStart(2, "0")}:${totalSeconds.toString().padStart(2, "0")}`)
-        //console.log(localStorage.getItem("gameTime"))
+        localStorage.setItem("VampirioGameTime", `${totalMinutes.toString().padStart(2, "0")}:${totalSeconds.toString().padStart(2, "0")}`)
+        //console.log(localStorage.getItem("VampirioGameTime"))
     }
 
     startGameTimer() { // Startet den Spieltimer
@@ -266,7 +266,7 @@ export class game {
         this.updateTimerDisplay()
         this.timerInterval = setInterval(() => {
             this.gameTimer++
-            localStorage.setItem("totalGameTime", (parseInt(localStorage.getItem("totalGameTime") || "0") + 1).toString());
+            localStorage.setItem("VampirioTotalGameTime", (parseInt(localStorage.getItem("VampirioTotalGameTime") || "0") + 1).toString());
             this.updateTimerDisplay()
             this.updateGameTime()
         }, 1000)
@@ -518,11 +518,11 @@ export class game {
         document.getElementById("startScreen").style.display = "none";
         document.getElementById("statsScreen").style.display = "flex";
 
-        document.getElementById("gameTime").innerHTML = localStorage.getItem("gameTime");
-        document.getElementById("gameXP").innerHTML = localStorage.getItem("gameXP");
-        document.getElementById("gameKills").innerHTML = localStorage.getItem("gameKills");
-        document.getElementById("gameWins").innerHTML = localStorage.getItem("gameWins");
-        document.getElementById("gameDefeats").innerHTML = localStorage.getItem("gameDefeats");
+        document.getElementById("gameTime").innerHTML = localStorage.getItem("VampirioGameTime");
+        document.getElementById("gameXP").innerHTML = localStorage.getItem("VampirioGameXP");
+        document.getElementById("gameKills").innerHTML = localStorage.getItem("VampirioGameKills");
+        document.getElementById("gameWins").innerHTML = localStorage.getItem("VampirioGameWins");
+        document.getElementById("gameDefeats").innerHTML = localStorage.getItem("VampirioGameDefeats");
     }
 
     statsReset() {
@@ -563,9 +563,9 @@ export class game {
     settings() {
         this.settingsListener()
 
-        document.getElementById("soundEffectsVol").value = parseFloat(localStorage.getItem("soundEffectsVol") || "1.0");
+        document.getElementById("soundEffectsVol").value = parseFloat(localStorage.getItem("VampirioSoundEffectsVol") || "1.0");
 
-        document.getElementById("musicVol").value = parseFloat(localStorage.getItem("musicVol") || "1.0");
+        document.getElementById("musicVol").value = parseFloat(localStorage.getItem("VampirioMusicVol") || "1.0");
 
         document.getElementById("gameScreen").style.display = "none";
         document.getElementById("pauseScreen").style.display = "none";
@@ -576,9 +576,9 @@ export class game {
     inGameSettings() {
         this.settingsListenerInGameSettings()
 
-        document.getElementById("soundEffectsVolInGame").value = parseFloat(localStorage.getItem("soundEffectsVol") || "1.0");
+        document.getElementById("soundEffectsVolInGame").value = parseFloat(localStorage.getItem("VampirioSoundEffectsVol") || "1.0");
 
-        document.getElementById("musicVolInGame").value = parseFloat(localStorage.getItem("musicVol") || "1.0");
+        document.getElementById("musicVolInGame").value = parseFloat(localStorage.getItem("VampirioMusicVol") || "1.0");
 
         document.getElementById("pauseScreen").style.display = "none";
         document.getElementById("inGameSettingsScreen").style.display = "flex";
@@ -642,7 +642,7 @@ export class game {
     }
 
     checkGP() {
-        const wins = parseInt(localStorage.getItem("gameWins")) || 0;
+        const wins = parseInt(localStorage.getItem("VampirioGameWins")) || 0;
 
         if (wins >= 1) {
             this.GP = true;
@@ -679,7 +679,7 @@ export class game {
         document.getElementById("defeatKills").innerHTML = this.killCount
         document.getElementById("defeatScreen").style.display = "flex";
 
-        localStorage.setItem("gameDefeats", (parseInt(localStorage.getItem("gameDefeats") || "0") + 1).toString());
+        localStorage.setItem("VampirioGameDefeats", (parseInt(localStorage.getItem("VampirioGameDefeats") || "0") + 1).toString());
 
         this.stopGameTimer()
         this.resetTimer()
@@ -701,7 +701,7 @@ export class game {
         document.getElementById("winKills").innerHTML = this.killCount
         document.getElementById("winScreen").style.display = "flex";
 
-        localStorage.setItem("gameWins", (parseInt(localStorage.getItem("gameWins") || "0") + 1).toString());
+        localStorage.setItem("VampirioGameWins", (parseInt(localStorage.getItem("VampirioGameWins") || "0") + 1).toString());
 
         this.stopGameTimer()
         this.resetTimer()

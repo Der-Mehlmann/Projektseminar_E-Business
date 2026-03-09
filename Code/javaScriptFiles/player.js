@@ -175,7 +175,7 @@ export class Player extends MovingEntity {
             this.lvlUp();
         }
 
-        localStorage.setItem("gameXP", (parseInt(localStorage.getItem("gameXP") || "0") + xpAmount).toString());
+        localStorage.setItem("VampirioGameXP", (parseInt(localStorage.getItem("VampirioGameXP") || "0") + xpAmount).toString());
         Game.hudXpProgress.value = this.xp;
     }
 
