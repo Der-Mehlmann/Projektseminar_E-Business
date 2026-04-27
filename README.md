@@ -25,3 +25,5 @@ To run the game, simply open the main HTML file in your web browser.
 ## Contributing
 
 As this is a university project, contributions are not expected. However, feel free to fork the repository and adapt it for your own purposes.
+
+*   Google Code-Wiki: https://codewiki.google/github.com/der-mehlmann/projektseminar_e-business 
